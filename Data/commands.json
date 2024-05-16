@@ -1,0 +1,26 @@
+{
+    "hello": {
+        "type": "speak",
+        "response": "Hello there! How can I assist you today?"
+    },
+    "folder": {
+        "type": "open",
+        "path": "."
+    },
+    "ui": {
+        "type": "open",
+        "path": "Data\\UI\\Pages"
+    },
+    "notepad": {
+        "type": "open",
+        "path": "notepad"
+    },
+    "youtube": {
+        "type": "browse",
+        "url": "https://www.youtube.com"
+    },
+    "download": {
+        "type": "open",
+        "path": "C:\\Users\\abdul\\Downloads"
+    }
+}

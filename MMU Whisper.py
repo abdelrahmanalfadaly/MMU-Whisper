@@ -1,6 +1,26 @@
 import os
+import json
+import subprocess
+import webbrowser
 import speech_recognition as sr
 import pyttsx3
+
+r = sr.Recognizer()
+engine = pyttsx3.init()
+
+COMMANDS_FILE = 'Data/commands.json'
+
+def load_commands():
+    if os.path.exists(COMMANDS_FILE):
+        with open(COMMANDS_FILE, 'r') as file:
+            return json.load(file)
+    return {}
+
+def save_commands(commands):
+    with open(COMMANDS_FILE, 'w') as file:
+        json.dump(commands, file, indent=4)
+
+commands = load_commands()
 
 def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -13,7 +33,6 @@ def listen_for_commands():
     with sr.Microphone() as source:
         clear_console()
         print("\nListening...")
-        speak("I am Listening.")
         r.adjust_for_ambient_noise(source)
         audio = r.listen(source)
         try:
@@ -23,21 +42,51 @@ def listen_for_commands():
             return command
         except sr.UnknownValueError:
             print("Sorry, I did not understand that.")
-            speak("Sorry, I did not understand that.")
         except sr.RequestError:
             print("Sorry, there was an issue with the speech recognition service.")
-            speak("Sorry, there was an issue with the speech recognition service.")
         return ""
 
 def text_command():
     clear_console()
     return input("Enter your command: ").lower()
 
+def open_file(filepath):
+    try:
+        if os.name == 'nt':  # Windows
+            os.startfile(filepath)
+        elif os.uname().sysname == 'Darwin':  # macOS
+            subprocess.call(('open', filepath))
+        else:  # Linux
+            subprocess.call(('xdg-open', filepath))
+    except Exception as e:
+        print(f"Error opening file: {e}")
+        speak(f"Error opening file")
+
+def open_url(url):
+    try:
+        webbrowser.open(url)
+        print(f"Opening {url}")
+        speak(f"Opening")
+    except Exception as e:
+        print(f"Error opening URL: {e}")
+        speak(f"Error opening URL")
+
 def handle_command(command):
-    if "hello" in command:
-        response = "Hello There, I am MMU Whisper, your Smart Campus Voice Companion. You have successfully tested the prototype, can't wait to show you the final results."
-        print(f"\n{response}")
-        speak(response)
+    for keyword, action in commands.items():
+        if keyword in command:
+            if action["type"] == "speak":
+                response = action["response"]
+                print(f"\n{response}")
+                speak(response)
+            elif action["type"] == "open":
+                filepath = action["path"]
+                open_file(filepath)
+            elif action["type"] == "browse":
+                url = action["url"]
+                open_url(url)
+            return False
+    if "add command" in command:
+        add_new_command()
     elif "exit" in command:
         print("\nExiting...")
         speak("Exiting. Goodbye!")
@@ -48,8 +97,28 @@ def handle_command(command):
         return "speech"
     else:
         print(f"\nUnrecognized command: {command}")
-        speak("Unrecognized command. Please try again.")
     return False
+
+def add_new_command():
+    command = input("Enter the new command: ").lower()
+    action_type = input("Enter the action type (speak/open/browse): ").lower()
+    
+    if action_type == "speak":
+        response = input("Enter the response text: ")
+        commands[command] = {"type": "speak", "response": response}
+    elif action_type == "open":
+        path = input("Enter the file/folder path: ")
+        commands[command] = {"type": "open", "path": path}
+    elif action_type == "browse":
+        url = input("Enter the URL: ")
+        commands[command] = {"type": "browse", "url": url}
+    else:
+        print("Invalid action type.")
+        return
+
+    save_commands(commands)
+    print(f"Command '{command}' added successfully.")
+    speak(f"Command '{command}' added successfully.")
 
 def main():
     mode = "text"
@@ -69,8 +138,6 @@ def main():
 
 if __name__ == "__main__":
     clear_console()
-    r = sr.Recognizer()
-    engine = pyttsx3.init()
     try:
         main()
     except KeyboardInterrupt:
