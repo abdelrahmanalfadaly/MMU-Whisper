@@ -1,0 +1,64 @@
+System, Global, Local
+
+-h (for help0)
+
+git config --global user.name "Name"
+git config --global user.email email
+git config --global core.editor "code --wait"
+git config --global core.autocrlf true
+git config --global -e
+|
+v
+#
+[core]
+	editor = code --wait
+	autocrlf = true
+[user]
+	name = Abdulrahman Alfadaly
+	email = abdulrahmanalfadaly@gmail.com
+
+[diff]
+	tool = vscode
+
+[difftool "vscode"]
+	cmd = "code --wait --diff $LOCAL $REMOTE"
+#
+
+git init
+
+
+git status 
+git status -s
+git add . then commit -m ""
+|_or git commit -am "" (To skip staging)
+git ls-files (files in git)
+
+.gitignore
+
+git difftool
+git difftool --staged
+
+git log
+git log --oneline
+git show "commit id"
+git ls-tree "commit id"
+
+git restore --stagged .
+git clean -fd 
+git restore --source=HEAD~1 filename
+
+______________________________________________________
+
+git clone url
+git remote add origin url
+
+git branch 
+git branch -m Main
+git checkout -b branchname
+git checkout branchname
+
+git puch origin branchname
+
+gir merge branchname
+
+git branch -d branchname

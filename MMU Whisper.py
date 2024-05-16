@@ -1,12 +1,6 @@
 import subprocess
 import sys
-import os
-import time
-from tkinter import *
-from PIL import ImageTk
-import speech_recognition as sr
-import pyttsx3
-import pyaudio
+
 
 def install_and_update_packages(packages):
     """Updates pip and installs the given list of packages."""
@@ -15,10 +9,15 @@ def install_and_update_packages(packages):
         subprocess.check_call([sys.executable, "-m", "pip", "install", package])
         #subprocess.check_call([sys.executable, "-m", "pip", "uninstall", "-y"] + packages)
 
-required_packages = ['SpeechRecognition', 'pyttsx3', 'pyaudio', 'pillow']
+required_packages = ['SpeechRecognition', 'pyttsx3', 'pyaudio', 'pillow', 'tkinter', 'weather']
 
 #install_and_update_packages(required_packages)
 
+
+import os
+import time
+from tkinter import *
+from PIL import ImageTk
 import speech_recognition as sr
 import pyttsx3
 import pyaudio
