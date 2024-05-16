@@ -1,19 +1,20 @@
 import subprocess
 import sys
 import os
-import time
+import datetime
 from tkinter import *
 from PIL import ImageTk
 import speech_recognition as sr
 import pyttsx3
 import pyaudio
+import weather
 
 def install_and_update_packages(packages):
     """Updates pip and installs the given list of packages."""
     subprocess.check_call([sys.executable, "-m", "pip", "install", "--upgrade", "pip"])
     for package in packages:
         subprocess.check_call([sys.executable, "-m", "pip", "install", package])
-        #subprocess.check_call([sys.executable, "-m", "pip", "uninstall", "-y"] + packages)
+      
 
 required_packages = ['SpeechRecognition', 'pyttsx3', 'pyaudio', 'pillow']
 
@@ -28,13 +29,22 @@ root.title("MMU Assistance")
 root.geometry("460x750")
 root.config(bg="OrangeRed")
 
-# Speech recognition setup
 r = sr.Recognizer()
 engine = pyttsx3.init()
 
 def speak(text):
     engine.say(text)
     engine.runAndWait()
+
+def clock_time():
+    now = datetime.datetime.now()
+    current_time = now.strftime("%I:%M %p")
+    return current_time
+
+def clock_date():
+    now = datetime.datetime.now()
+    current_date = now.strftime("%A, %B %d, %Y")
+    return current_date
 
 def listen_for_commands():
     with sr.Microphone() as source:
@@ -56,16 +66,31 @@ def listen_for_commands():
 def handle_speech_command():
     command = listen_for_commands()
     if "hello" in command:
-        response = "\\nHello There, I am MMU Whisper, your Smart Campus Voice Companion. You have successfully Tested the prototype, can't wait to show you the final results"
-        text.insert(END, response + "\\n")
+        response = "\nHello There, I am MMU Whisper, your Smart Campus Voice Companion. You have successfully Tested the prototype, can't wait to show you the final results"
+        text.insert(END, response + "\n")
         text.see(END)
-        root.update()  # Ensures the GUI updates before speaking starts
         speak(response)
+
+    elif "what is the time" in command:
+        current_time = clock_time()
+        print("\nThe current time is "+ current_time)
+        speak("The current time is " + current_time)
+        
+    elif "what is the date" in command:
+        current_date = clock_date()
+        print("\nToday's date is " + current_date)
+        speak("Today's date is "+ current_date)
+
     elif "exit" in command:
-        text.insert(END, "\\nExiting...\\n")
+        text.insert(END, "\nExiting...\n")
         text.see(END)
-        root.update()  # Update GUI before potentially closing
         root.quit()
+
+    elif "what is the weather" in command:
+        location = "Cyberjaya"  # You can extract location from the command
+        current_weather = weather.get_weather(location)
+        print("\nToday's weather is " + current_weather)
+        speak( current_weather)
 
 frame = LabelFrame(root, relief="raised")
 frame.grid(row=0, column=0, pady=0)
