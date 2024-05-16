@@ -191,10 +191,11 @@ def show_help(command, output_label):
         "\n2) AI search engine - Whisper can search for whatever you ask for.\nsay: \"open (e.g. Youtube) website\", or \"open (e.g. download) folder\", or \"open (e.g. notes.txt) file\" \n"
         "\n3) Current Time and Date - Displays when \"time\" or \"date\" is detected in your command \n"
         "\n4) Current Weather- Displays when \"weather\"is detected in your command\n"
-        "\n5) Timer - Opens Pomodoro when \"timer\" is detected in your command\n"
+        "\n5) Pomodoro timer - Say \"open pomodoro\"\n"
         "\n6) Class Management - Insert your sessions schduel by saying \"Add class\",  then you may ask \"What is my next class\" or \"classes on (e.g. Monday)\"\n"
         "\n7) Customized commands - you can add custom commands phrases that opens URL, folders, files, and programs, \nsay: \"Add command\"\n"
-        "\n\n\nYour Customized Commands:\n"
+        "\n8) MMU latest events - say 'envent'\n"
+        "\n\n\nYour Current Customized Commands:\n"
     )
     for cmd in commands.keys():
         help_text += f"\n- {cmd.capitalize()}"
@@ -253,7 +254,7 @@ def handle_command(command, output_label):
             elif action["type"] == "custom":
                 globals()[action["response"]](command, output_label)
             return
-    display_and_speak(f"{command} is Unrecognized", output_label)
+    display_and_speak(f"'{command}' is Unrecognized", output_label)
 
 def listen_and_handle_commands(output_label):
     command = Speach_Recognition(output_label)

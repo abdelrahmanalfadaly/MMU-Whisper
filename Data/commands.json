@@ -8,7 +8,7 @@
     "time": {
         "type": "custom",
         "response": "date_and_time",
-        "exact_match": false
+        "exact_match": true
     },
     "date": {
         "type": "custom",
@@ -23,11 +23,6 @@
     "pomodoro": {
         "type": "path",
         "response": "mmu_tools/pomodoro_timer.py",
-        "exact_match": false
-    },
-    "help": {
-        "type": "custom",
-        "response": "show_help",
         "exact_match": false
     },
     "class": {
@@ -45,10 +40,15 @@
         "response": "campus_navigation",
         "exact_match": false
     },
+    "Events": {
+        "type": "path",
+        "response": "mmu_tools/events.py",
+        "exact_match": false
+    },
 
     "open": {
         "type": "custom",
         "response": "ai_search_engine",
         "exact_match": false
-    }
+    }   
 }

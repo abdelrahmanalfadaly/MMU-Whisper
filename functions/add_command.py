@@ -83,17 +83,14 @@ def delete_selected_command():
     else:
         messagebox.showwarning("Deletion Error", f"Command '{selected_command}' not found.")
 
-# Initialize the Tkinter window
 root = tk.Tk()
 root.title("Add New Command")
 root.geometry("500x500")
 
-# Command phrase
 tk.Label(root, text="Phrase:").grid(row=0, column=0, padx=10, pady=10, sticky="e")
 command_entry = tk.Entry(root, width=30)
 command_entry.grid(row=0, column=1, padx=10, pady=10)
 
-# Command type
 tk.Label(root, text="Command Type:").grid(row=1, column=0, padx=10, pady=10, sticky="e")
 command_type_var = tk.StringVar()
 command_type_combobox = ttk.Combobox(root, textvariable=command_type_var, width=27, state="readonly")
@@ -101,33 +98,26 @@ command_type_combobox['values'] = ("Speak", "Open Website", "Open Folder/File")
 command_type_combobox.grid(row=1, column=1, padx=10, pady=10)
 command_type_combobox.bind("<<ComboboxSelected>>", update_response_label)
 
-# Response
 response_label = tk.Label(root, text="Enter response:")
 response_label.grid(row=2, column=0, padx=10, pady=10, sticky="e")
 response_entry = tk.Entry(root, width=30)
 response_entry.grid(row=2, column=1, padx=10, pady=10)
 
-# Exact match
 tk.Label(root, text="Exact Match:").grid(row=3, column=0, padx=10, pady=10, sticky="e")
 exact_match_var = tk.BooleanVar()
 exact_match_checkbutton = tk.Checkbutton(root, text="Yes", variable=exact_match_var)
 exact_match_checkbutton.grid(row=3, column=1, padx=10, pady=10, sticky="w")
 
-# Submit button
 submit_button = tk.Button(root, text="Add Command", command=on_submit)
 submit_button.grid(row=4, column=0, columnspan=2, pady=10)
 
-# Command list
 tk.Label(root, text="Commands List:").grid(row=5, column=0, padx=10, pady=10, sticky="e")
 command_listbox = tk.Listbox(root, width=50)
 command_listbox.grid(row=5, column=1, padx=10, pady=10)
 
-# Delete button
 delete_button = tk.Button(root, text="Delete Selected Command", command=delete_selected_command)
 delete_button.grid(row=6, column=0, columnspan=2, pady=10)
 
-# Initialize the command list
 update_command_list()
 
-# Run the Tkinter event loop
 root.mainloop()
