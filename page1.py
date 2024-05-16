@@ -1,59 +1,80 @@
-from PIL import Image, ImageDraw, ImageFont
+import tkinter as tk
 
-# Load images
-logo_path = 'path_to_logo.png'
-button1_path = 'path_to_button1.png'
-button2_path = 'path_to_button2.png'
-button3_path = 'path_to_button3.png'
+def draw_rounded_rectangle(canvas, x1, y1, x2, y2, radius, **kwargs):
+    points = [x1 + radius, y1,
+              x1 + radius, y1,
+              x2 - radius, y1,
+              x2 - radius, y1,
+              x2, y1,
+              x2, y1 + radius,
+              x2, y1 + radius,
+              x2, y2 - radius,
+              x2, y2 - radius,
+              x2, y2,
+              x2 - radius, y2,
+              x2 - radius, y2,
+              x1 + radius, y2,
+              x1 + radius, y2,
+              x1, y2,
+              x1, y2 - radius,
+              x1, y2 - radius,
+              x1, y1 + radius,
+              x1, y1 + radius,
+              x1, y1]
 
-# Create a new white image
-width, height = 400, 500
-image = Image.new('RGB', (width, height), 'white')
-draw = ImageDraw.Draw(image)
+    canvas.create_polygon(points, **kwargs, smooth=True)
 
-# Define sections
-section_height = height // 3
+def main():
+    # Create the main window
+    root = tk.Tk()
+    root.title("MMU Whisper")
+    root.geometry("400x500")
+    root.configure(background="white")
+    
+    # Divide the window into 3 sections horizontally
+    section1 = tk.Frame(root, bg="white", width=400, height=150)
+    section1.grid(row=0, column=0, sticky="nsew")
 
-# Section 1: Logo
-logo = Image.open(logo_path)
-logo = logo.resize((width, section_height), Image.ANTIALIAS)
-image.paste(logo, (0, 0))
+    section2 = tk.Frame(root, bg="white", width=400, height=150)
+    section2.grid(row=1, column=0, sticky="nsew")
 
-# Section 2: Buttons
-button1 = Image.open(button1_path)
-button2 = Image.open(button2_path)
-button3 = Image.open(button3_path)
+    section3 = tk.Frame(root, bg="white", width=400, height=200)
+    section3.grid(row=2, column=0, sticky="nsew")
+    
+    # Add a logo to section 1
+    logo_image = tk.PhotoImage(file="Logo.png")  
+    logo_label = tk.Label(section1, image=logo_image, bg="white")
+    logo_label.image = logo_image  
+    logo_label.pack(pady=10)
 
-# Assuming buttons are the same size and fit horizontally
-button_width = width // 3
-button_height = section_height
+    # Add buttons to section 2
+    button1_image = tk.PhotoImage(file="Button1.png")
+    button1 = tk.Button(section2, image=button1_image, bg="white", borderwidth=0)
+    button1.image = button1_image
+    button1.grid(row=0, column=0, padx=(40, 5), pady=10)
 
-button1 = button1.resize((button_width, button_height), Image.ANTIALIAS)
-button2 = button2.resize((button_width, button_height), Image.ANTIALIAS)
-button3 = button3.resize((button_width, button_height), Image.ANTIALIAS)
+    button2_image = tk.PhotoImage(file="Button2.png")
+    button2 = tk.Button(section2, image=button2_image, bg="white", borderwidth=0)
+    button2.image = button2_image
+    button2.grid(row=0, column=1, padx=(5, 5), pady=10)
 
-image.paste(button1, (0, section_height))
-image.paste(button2, (button_width, section_height))
-image.paste(button3, (2 * button_width, section_height))
+    button3_image = tk.PhotoImage(file="Button3.png")
+    button3 = tk.Button(section2, image=button3_image, bg="white", borderwidth=0)
+    button3.image = button3_image
+    button3.grid(row=0, column=2, padx=(5, 40), pady=10)
+    
+    # Adjust column weights to center buttons
+    section2.columnconfigure(0, weight=1)
+    section2.columnconfigure(1, weight=1)
+    section2.columnconfigure(2, weight=1)
 
-# Section 3: Text Label
-label_x = 20
-label_y = 2 * section_height + 10
-label_width = width - 40
-label_height = section_height - 20
-label_rect = (label_x, label_y, label_x + label_width, label_y + label_height)
+    # Add a rounded rectangle label with gray background to section 3
+    canvas = tk.Canvas(section3, bg="white", width=400, height=200, highlightthickness=0)
+    canvas.pack(expand=True, fill="both")
+    draw_rounded_rectangle(canvas, 20, 20, 380, 180, 20, fill="#e6e6e6", outline="", width=0)
 
-# Draw rounded rectangle
-radius = 20
-draw.rounded_rectangle(label_rect, radius, fill="gray")
+    # Run the application
+    root.mainloop()
 
-# Add text to label
-font = ImageFont.load_default()
-text = "Your Text Here"
-text_width, text_height = draw.textsize(text, font=font)
-text_x = label_x + (label_width - text_width) // 2
-text_y = label_y + (label_height - text_height) // 2
-draw.text((text_x, text_y), text, fill="black", font=font)
-
-# Save the result
-image.save('result_image.png')
+if __name__ == "__main__":
+    main()
