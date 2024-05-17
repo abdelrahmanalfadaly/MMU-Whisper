@@ -3,9 +3,9 @@
         "type": "speak",
         "response": "Hello there! How can I assist you today?"
     },
-    "folder": {
+    "file": {
         "type": "open",
-        "path": "."
+        "path": "C:\\Users\\abdul\\OneDrive\\Desktop\\Assignment_Term2410.pdf"
     },
     "ui": {
         "type": "open",
