@@ -24,14 +24,20 @@ def draw_rounded_rectangle(canvas, x1, y1, x2, y2, radius, **kwargs):
 
     canvas.create_polygon(points, **kwargs, smooth=True)
 
-def main():
-    # Create the main window
+def on_focus_in(event):
+    event.widget.config(fg='black')
+
+def on_focus_out(event):
+    if event.widget.get() == '':
+        event.widget.config(fg='grey')
+
+def setup_text_interface():
     root = tk.Tk()
-    root.title("Page 2")
+    root.title("Text")
     root.geometry("400x500")
     root.configure(background="white")
     
-    # Divide the window into 4 sections vertically
+    # Divide into 4 sections
     section1 = tk.Frame(root, bg="white", width=400, height=100)
     section1.grid(row=0, column=0, sticky="nsew")
 
@@ -44,41 +50,38 @@ def main():
     section4 = tk.Frame(root, bg="white", width=400, height=200)
     section4.grid(row=3, column=0, sticky="nsew")
     
-    # Add a logo to section 1
+    # logo at section 1
     logo_image = tk.PhotoImage(file="Logo.png")  
     logo_label = tk.Label(section1, image=logo_image, bg="white")
     logo_label.image = logo_image  
     logo_label.pack(pady=10)
 
-    # Add standard size rounded text input to section 2
+    # rounded input at section 2
     input_entry = tk.Entry(section2, bg="#e0e0e0", relief="flat", fg='grey')
-    input_entry.bind('<FocusIn>')
-    input_entry.bind('<FocusOut>')
-    input_entry.pack(padx=40, pady=1, fill="y")
+    input_entry.bind('<FocusIn>', on_focus_in)
+    input_entry.bind('<FocusOut>', on_focus_out)
+    input_entry.pack(padx=40, pady=10, fill="y")
 
-    # Add buttons to section 3
+    #buttons at section 3
     button_frame = tk.Frame(section3, bg="white")
     button_frame.pack(expand=True, fill="both")
     
-    button1_image = tk.PhotoImage(file="button1.png")
-    button1 = tk.Button(button_frame, image=button1_image, bg="white", relief="flat")
-    button1.image = button1_image
-    button1.pack(side="left", padx=(30, 10), pady=10, expand=True)
+    settingbs_image = tk.PhotoImage(file="settingbs.png")
+    settingbs = tk.Button(button_frame, image=settingbs_image, bg="white", relief="flat")
+    settingbs.image = settingbs_image
+    settingbs.pack(side="left", padx=(30, 10), pady=10, expand=True)
 
-    button2_image = tk.PhotoImage(file="button2.5.png")
-    button2 = tk.Button(button_frame, image=button2_image, bg="white", relief="flat")
-    button2.image = button2_image
-    button2.pack(side="left", padx=(10, 30), pady=10, expand=True)
+    stsrb_image = tk.PhotoImage(file="stsrb.png")
+    stsrb = tk.Button(button_frame, image=stsrb_image, bg="white", relief="flat")
+    stsrb.image = stsrb_image
+    stsrb.pack(side="left", padx=(10, 30), pady=10, expand=True)
 
-
-    # Add a rounded rectangle label with gray background to section 4
+    # rounded rectangle label at section 4
     canvas = tk.Canvas(section4, bg="white", width=400, height=200, highlightthickness=0)
     canvas.pack(expand=True, fill="both")
     input_entry.focus()
     draw_rounded_rectangle(canvas, 20, 20, 380, 180, 20, fill="#e6e6e6", outline="", width=0)
 
-    # Run the application
     root.mainloop()
 
-if __name__ == "__main__":
-    main()
+setup_text_interface()

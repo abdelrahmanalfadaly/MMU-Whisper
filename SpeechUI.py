@@ -24,10 +24,9 @@ def draw_rounded_rectangle(canvas, x1, y1, x2, y2, radius, **kwargs):
 
     canvas.create_polygon(points, **kwargs, smooth=True)
 
-def main():
-    # Create the main window
+def setup_speech_interface():
     root = tk.Tk()
-    root.title("MMU Whisper")
+    root.title("Speech")
     root.geometry("400x500")
     root.configure(background="white")
     
@@ -48,20 +47,20 @@ def main():
     logo_label.pack(pady=10)
 
     # Add buttons to section 2
-    button1_image = tk.PhotoImage(file="Button1.png")
-    button1 = tk.Button(section2, image=button1_image, bg="white", borderwidth=0)
-    button1.image = button1_image
-    button1.grid(row=0, column=0, padx=(40, 5), pady=10)
+    settingbs_image = tk.PhotoImage(file="settingbs.png")
+    settingbs = tk.Button(section2, image=settingbs_image, bg="white", borderwidth=0)
+    settingbs.image = settingbs_image
+    settingbs.grid(row=0, column=0, padx=(40, 5), pady=10)
 
-    button2_image = tk.PhotoImage(file="Button2.png")
-    button2 = tk.Button(section2, image=button2_image, bg="white", borderwidth=0)
-    button2.image = button2_image
-    button2.grid(row=0, column=1, padx=(5, 5), pady=10)
+    srb_image = tk.PhotoImage(file="srb.png")
+    srb = tk.Button(section2, image=srb_image, bg="white", borderwidth=0)
+    srb.image = srb_image
+    srb.grid(row=0, column=1, padx=(5, 5), pady=10)
 
-    button3_image = tk.PhotoImage(file="Button3.png")
-    button3 = tk.Button(section2, image=button3_image, bg="white", borderwidth=0)
-    button3.image = button3_image
-    button3.grid(row=0, column=2, padx=(5, 40), pady=10)
+    sttb_image = tk.PhotoImage(file="sttb.png")
+    sttb = tk.Button(section2, image=sttb_image, bg="white", borderwidth=0)
+    sttb.image = sttb_image
+    sttb.grid(row=0, column=2, padx=(5, 40), pady=10)
     
     # Adjust column weights to center buttons
     section2.columnconfigure(0, weight=1)
@@ -73,8 +72,6 @@ def main():
     canvas.pack(expand=True, fill="both")
     draw_rounded_rectangle(canvas, 20, 20, 380, 180, 20, fill="#e6e6e6", outline="", width=0)
 
-    # Run the application
     root.mainloop()
 
-if __name__ == "__main__":
-    main()
+setup_speech_interface()
