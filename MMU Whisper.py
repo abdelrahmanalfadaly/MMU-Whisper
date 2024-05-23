@@ -10,15 +10,21 @@ def main():
     
     if mode == "text":
         root, input_entry, output_label, buttons = setup_text_interface()
+        settingbs_button, stsrb_button = buttons
+        srb_button = None
+        sttb_button = None
     elif mode == "speech":
         root, input_entry, output_label, buttons = setup_speech_interface()
-
-    settingbs_button, srb_button, sttb_button, stsrb_button = buttons
+        settingbs_button, srb_button, sttb_button = buttons
+        stsrb_button = None
 
     settingbs_button.config(command=lambda: open_file('.'))
-    srb_button.config(command=start_speech_recognition)
-    sttb_button.config(command=lambda: switch_mode("text", root))
-    stsrb_button.config(command=lambda: switch_mode("speech", root))
+    if srb_button:
+        srb_button.config(command=start_speech_recognition)
+    if sttb_button:
+        sttb_button.config(command=lambda: switch_mode("text", root))
+    if stsrb_button:
+        stsrb_button.config(command=lambda: switch_mode("speech", root))
 
     def on_enter(event):
         command = input_entry.get().lower()
