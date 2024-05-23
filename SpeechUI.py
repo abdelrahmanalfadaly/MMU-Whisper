@@ -41,23 +41,23 @@ def setup_speech_interface():
     section3.grid(row=2, column=0, sticky="nsew")
     
     # Add a logo to section 1
-    logo_image = tk.PhotoImage(file="Logo.png")  
+    logo_image = tk.PhotoImage(file="Data\\UI\\Logo.png")  
     logo_label = tk.Label(section1, image=logo_image, bg="white")
     logo_label.image = logo_image  
     logo_label.pack(pady=10)
 
     # Add buttons to section 2
-    settingbs_image = tk.PhotoImage(file="settingbs.png")
+    settingbs_image = tk.PhotoImage(file="Data\\UI\\settingbs.png")
     settingbs = tk.Button(section2, image=settingbs_image, bg="white", borderwidth=0)
     settingbs.image = settingbs_image
     settingbs.grid(row=0, column=0, padx=(40, 5), pady=10)
 
-    srb_image = tk.PhotoImage(file="srb.png")
+    srb_image = tk.PhotoImage(file="Data\\UI\\srb.png")
     srb = tk.Button(section2, image=srb_image, bg="white", borderwidth=0)
     srb.image = srb_image
     srb.grid(row=0, column=1, padx=(5, 5), pady=10)
 
-    sttb_image = tk.PhotoImage(file="sttb.png")
+    sttb_image = tk.PhotoImage(file="Data\\UI\\sttb.png")
     sttb = tk.Button(section2, image=sttb_image, bg="white", borderwidth=0)
     sttb.image = sttb_image
     sttb.grid(row=0, column=2, padx=(5, 40), pady=10)

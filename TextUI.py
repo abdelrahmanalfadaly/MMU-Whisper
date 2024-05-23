@@ -51,7 +51,7 @@ def setup_text_interface():
     section4.grid(row=3, column=0, sticky="nsew")
     
     # logo at section 1
-    logo_image = tk.PhotoImage(file="Logo.png")  
+    logo_image = tk.PhotoImage(file="Data\\UI\\Logo.png")  
     logo_label = tk.Label(section1, image=logo_image, bg="white")
     logo_label.image = logo_image  
     logo_label.pack(pady=10)
@@ -66,12 +66,12 @@ def setup_text_interface():
     button_frame = tk.Frame(section3, bg="white")
     button_frame.pack(expand=True, fill="both")
     
-    settingbs_image = tk.PhotoImage(file="settingbs.png")
+    settingbs_image = tk.PhotoImage(file="Data\\UI\\settingbs.png")
     settingbs = tk.Button(button_frame, image=settingbs_image, bg="white", relief="flat")
     settingbs.image = settingbs_image
     settingbs.pack(side="left", padx=(30, 10), pady=10, expand=True)
 
-    stsrb_image = tk.PhotoImage(file="stsrb.png")
+    stsrb_image = tk.PhotoImage(file="Data\\UI\\stsrb.png")
     stsrb = tk.Button(button_frame, image=stsrb_image, bg="white", relief="flat")
     stsrb.image = stsrb_image
     stsrb.pack(side="left", padx=(10, 30), pady=10, expand=True)
