@@ -6,7 +6,7 @@ def main():
     mode = "speech"  # Change this to switch between text and speech mode
     commands = load_commands()
 
-    if mode == "text":
+    if mode == "speech":
         setup_text_interface()
     elif mode == "speech":
         setup_speech_interface()
