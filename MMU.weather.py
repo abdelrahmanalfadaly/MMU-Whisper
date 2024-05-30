@@ -8,6 +8,9 @@ import speech_recognition as sr
 import pyttsx3
 import pyaudio
 import weather
+import wikipedia
+import webbrowser
+
 
 def install_and_update_packages(packages):
     """Updates pip and installs the given list of packages."""
@@ -18,7 +21,6 @@ def install_and_update_packages(packages):
 
 required_packages = ['SpeechRecognition', 'pyttsx3', 'pyaudio', 'pillow']
 
-#install_and_update_packages(required_packages)
 
 import speech_recognition as sr
 import pyttsx3
@@ -45,6 +47,21 @@ def clock_date():
     now = datetime.datetime.now()
     current_date = now.strftime("%A, %B %d, %Y")
     return current_date
+
+def wiki_person(text):
+    list_wiki = text.split()
+    for i in range(len(list_wiki)):
+        if i + 3 <= len(list_wiki) - 1 and list_wiki[i].lower() == "who" and list_wiki[i + 1].lower() == "is":
+            return list_wiki[i + 2] + " " + list_wiki[i + 3]
+
+def wiki_item(text):
+    list_wiki = text.split()
+    for i in range(len(list_wiki)):
+        if i + 2 <= len(list_wiki) - 1 and list_wiki[i].lower() == "what" and list_wiki[i + 1].lower() == "is":
+            return " ".join(list_wiki[i + 2:])
+    return "" 
+        
+
 
 def listen_for_commands():
     with sr.Microphone() as source:
@@ -87,10 +104,51 @@ def handle_speech_command():
         root.quit()
 
     elif "what is the weather" in command:
-        location = "Cyberjaya"  # You can extract location from the command
+        location = "Cyberjaya"  
         current_weather = weather.get_weather(location)
         print("\nToday's weather is " + current_weather)
         speak( current_weather)
+
+
+    elif "wikipedia" in command:
+        if "who is" in command:
+            person = wiki_person(command)
+            if person:
+                wiki_summary = wikipedia.summary(person, sentences=2)
+                response = f"\n{wiki_summary}\n"
+                text.insert(END, response)
+                speak(wiki_summary)
+            else:
+                text.insert(END, "Sorry, I couldn't find that person.\n")
+                speak("Sorry, I couldn't find that person.")
+        elif "what is" in command:
+            item = wiki_item(command)
+            if item:
+                wiki_summary = wikipedia.summary(item, sentences=2)
+                response = f"\n{wiki_summary}\n"
+                text.insert(END, response)
+                speak(wiki_summary)
+            else:
+                text.insert(END, "Sorry, I couldn't find this item.\n")
+                speak("Sorry, I couldn't find this item.")
+
+    
+                
+                
+    elif "search on youtube" in command:
+        ind = command.split().index("youtube")
+        search = command.split()[ind + 1:]
+        webbrowser.open("http://www.youtube.com/results?search_query=" + "+".join(search))
+        speak("Opening " + " ".join(search) + " on YouTube")
+
+
+
+    elif "search on google" in command:
+        ind = command.split().index("google")
+        search = command.split()[ind + 1:]
+        webbrowser.open("http://www.google.com/search?q=" + "+".join(search))
+        speak("Opening " + " ".join(search) + " on Google")
+
 
 frame = LabelFrame(root, relief="raised")
 frame.grid(row=0, column=0, pady=0)
