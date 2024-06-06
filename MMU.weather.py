@@ -150,6 +150,13 @@ def handle_speech_command():
         speak("Opening " + " ".join(search) + " on Google")
 
 
+    elif "direction from fci to fom" in command:
+        url = "https://www.google.com/maps/dir/Faculty+of+Computing+%26+Informatics/Faculty+of+Management+(FOM)+@+MMU+Cyberjaya,+Persiaran+Multimedia,+63100+Cyberjaya,+Selangor/@2.9295715,101.6411213,18.25z/data=!4m13!4m12!1m5!1m1!1s0x31cdb6e9ab2c6603:0xdedb9094d553b194!2m2!1d101.6405899!2d2.9290643!1m5!1m1!1s0x31cdb6e9a19f8cdb:0xc983ff350ca6a201!2m2!1d101.6412675!2d2.9299632?hl=en&entry=ttu"
+        print("Opening URL:", url)  # Debugging statement3
+        webbrowser.open(url)
+        speak("Opening direction from FCI to FOM on Google Maps")
+
+
 frame = LabelFrame(root, relief="raised")
 frame.grid(row=0, column=0, pady=0)
 
