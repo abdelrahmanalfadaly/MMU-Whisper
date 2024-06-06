@@ -7,6 +7,12 @@
         "type": "open",
         "path": "C:\\Users\\abdul\\OneDrive\\Desktop\\Assignment_Term2410.pdf"
     },
+
+    "timer": {
+        "type": "open",
+        "path": "Data\\Study Tools\\pomodoro_timer.py"
+    },
+
     "ui": {
         "type": "open",
         "path": "Data\\UI\\Pages"

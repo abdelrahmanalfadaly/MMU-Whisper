@@ -6,8 +6,11 @@ from pyttsx3 import init as init_engine
 from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
+from Data.speech_recognition import listen_for_commands
+from Data.gui_setup import update_output_text, setup_text_interface, setup_speech_interface
 
 COMMANDS_FILE = 'Data/commands.json'
+mode = "text"
 
 def load_commands():
     if os.path.exists(COMMANDS_FILE):
@@ -29,11 +32,11 @@ def open_file(filepath):
     try:
         if os.name == 'nt':
             os.startfile(filepath)
-            speak("Opening folder")
         elif os.uname().sysname == 'Darwin':
             subprocess.call(('open', filepath))
         else:
             subprocess.call(('xdg-open', filepath))
+        speak("Opening")
     except Exception as e:
         speak("I can't open the file")
         print(e)
@@ -103,7 +106,7 @@ def handle_command(command, commands, output_label=None):
             return False
     return True
 
-def add_new_command(commands):
+def add_new_command(commands, output_label=None):
     command = input("Enter the new command: ").lower()
     action_type = input("Enter the action type (speak/open/browse/custom): ").lower()
     
@@ -125,8 +128,60 @@ def add_new_command(commands):
 
     save_commands(commands)
     speak(f"Command '{command}' added successfully.")
-    update_output_text(None, f"Command '{command}' added successfully.")
-
-def update_output_text(output_label, text):
     if output_label:
-        output_label.config(text=text)
+        update_output_text(output_label, f"Command '{command}' added successfully.")
+
+def start_speech_recognition():
+    command = listen_for_commands()
+    if command:
+        handle_user_command(command, load_commands(), None)
+
+def switch_mode(new_mode, root):
+    global mode
+    mode = new_mode
+    root.destroy()
+    main()
+
+def handle_user_command(command, commands, output_label):
+    if command == "exit":
+        print("Exiting. Goodbye!")
+        exit()
+
+    if handle_command(command, commands, output_label):
+        add_new_command(commands, output_label)
+    if output_label:
+        update_output_text(output_label, f"Processed command: {command}")
+
+def main():
+    global mode
+    commands = load_commands()
+    
+    if mode == "text":
+        root, input_entry, output_label, buttons = setup_text_interface()
+        settings_button, stsrb_button = buttons
+        srb_button = None
+        sttb_button = None
+    elif mode == "speech":
+        root, input_entry, output_label, buttons = setup_speech_interface()
+        settings_button, srb_button, sttb_button = buttons
+        stsrb_button = None
+
+    settings_button.config(command=lambda: open_file('.'))
+    if srb_button:
+        srb_button.config(command=start_speech_recognition)
+    if sttb_button:
+        sttb_button.config(command=lambda: switch_mode("text", root))
+    if stsrb_button:
+        stsrb_button.config(command=lambda: switch_mode("speech", root))
+
+    def on_enter(event):
+        command = input_entry.get().lower()
+        handle_user_command(command, commands, output_label)
+
+    if input_entry:
+        input_entry.bind('<Return>', on_enter)
+    
+    root.mainloop()
+
+if __name__ == "__main__":
+    main()
