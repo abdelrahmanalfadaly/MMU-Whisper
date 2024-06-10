@@ -14,8 +14,8 @@ CYCLE = 4
 STUDY_SEC = int(STUDY_TIME * 60)
 SHORT_BREAK_SEC = int(SHORT_BREAK_TIME * 60)
 
-STUDY_SOUND_FILE = "Data\\Study Tools\\break.mp3"
-SHORT_BREAK_SOUND_FILE = "Data\\Study Tools\\study.mp3"
+STUDY_SOUND_FILE = "data\\Sounds\\break.mp3"
+SHORT_BREAK_SOUND_FILE = "data\\Sounds\\study.mp3"
 
 # Function to play local sound file
 def play_sound(file_path):
