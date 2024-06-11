@@ -1,13 +1,21 @@
 from tkinter import *
 from PIL import ImageTk, Image
-import mysql.connector
+import json
+import os
 
-db_config = {
-    'user': 'root',
-    'password': 'Belal78@',
-    'host': 'localhost',
-    'database': 'mmu'
-}
+def get_schedule_file_path():
+    return os.path.join(os.path.dirname(__file__), 'data.json')
+
+def load_schedule():
+    try:
+        with open(get_schedule_file_path(), 'r') as file:
+            return json.load(file)
+    except FileNotFoundError:
+        return []
+
+def save_schedule(schedule):
+    with open(get_schedule_file_path(), 'w') as file:
+        json.dump(schedule, file, indent=4)
 
 def add_data():
     subject = subject_entry.get()
@@ -22,27 +30,26 @@ def add_data():
         print("Error: All fields are required")
         return
 
-    try:
-        connection = mysql.connector.connect(**db_config)
-        cursor = connection.cursor()
+    schedule = load_schedule()
 
-        check_sql = "SELECT * FROM classes WHERE subject=%s AND type=%s"
-        cursor.execute(check_sql, (subject, class_type))
-        result = cursor.fetchone()
+    for row in schedule:
+        if row['subject'].lower() == subject.lower() and row['type'].lower() == class_type.lower():
+            print("Class already exists")
+            return
 
-        if result:
-            print("Already exists")
-        else:
-            sql = "INSERT INTO classes (subject, type, day, start_time, end_time, location, lecturer) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-            data = (subject, class_type, day, start_time, end_time, location, lecturer)
-            cursor.execute(sql, data)
-            connection.commit()
-            print("Class added successfully")
-    except mysql.connector.Error as err:
-        print(f"Error: {err}")
-    finally:
-        cursor.close()
-        connection.close()
+    new_class = {
+        'subject': subject,
+        'type': class_type,
+        'day': day,
+        'start_time': start_time,
+        'end_time': end_time,
+        'location': location,
+        'lecturer': lecturer
+    }
+    
+    schedule.append(new_class)
+    save_schedule(schedule)
+    print("Class added successfully")
 
 def delete_data():
     subject = subject_entry.get()
@@ -52,23 +59,15 @@ def delete_data():
         print("Error: Subject and Type fields are required")
         return
 
-    try:
-        connection = mysql.connector.connect(**db_config)
-        cursor = connection.cursor()
+    schedule = load_schedule()
 
-        delete_sql = "DELETE FROM classes WHERE subject=%s AND type=%s"
-        cursor.execute(delete_sql, (subject, class_type))
-        connection.commit()
+    new_schedule = [row for row in schedule if not (row['subject'].lower() == subject.lower() and row['type'].lower() == class_type.lower())]
 
-        if cursor.rowcount > 0:
-            print("Class deleted successfully")
-        else:
-            print("No matching class found to delete")
-    except mysql.connector.Error as err:
-        print(f"Error: {err}")
-    finally:
-        cursor.close()
-        connection.close()
+    if len(new_schedule) == len(schedule):
+        print("No matching class found to delete")
+    else:
+        save_schedule(new_schedule)
+        print("Class deleted successfully")
 
 root = Tk()
 root.title("MMU Whisper")
