@@ -1,0 +1,66 @@
+{
+    "hello": {
+        "type": "speak",
+        "response": "Hello there! How can I assist you today?"
+    },
+    "assignment": {
+        "type": "open",
+        "path": "C:\\Users\\User\\Desktop\\T2410_Reading Project_Answer Template.pdf"
+    },
+    "ui": {
+        "type": "open",
+        "path": "Data\\UI\\Pages"
+    },
+    "notepad": {
+        "type": "open",
+        "path": "notepad"
+    },
+    "youtube": {
+        "type": "browse",
+        "url": "https://www.youtube.com"
+    },
+    "download": {
+        "type": "open",
+        "path": "C:\\Users\\abdul\\Downloads"
+    },
+    "weather": {
+        "type": "custom",
+        "function": "get_weather"
+    },
+    "time": {
+        "type": "custom",
+        "function": "get_current_time"
+    },
+    "date": {
+        "type": "custom",
+        "function": "get_current_date"
+    },
+    "google maps": {
+        "type": "custom",
+        "function": "search_on_google_maps_from"
+    },
+    "direction from fci to fom": {
+        "type": "custom",
+        "function": "direction_from_fci_to_fom"
+    },
+    "direction from fci to dtc": {
+        "type": "custom",
+        "function": "direction_from_fci_to_dtc"
+    },
+    "direction from fci to lecture complex": {
+        "type": "custom",
+        "function": "direction_from_fci_to_lecture_complex"
+    },
+    "direction from fci to library":{
+        "type": "custom",
+        "function": "direction_from_fci_to_library"
+    },
+    "direction from fci to fcm":{
+        "type": "custom",
+        "function": "direction_from_fci_to_fcm"
+    },
+    "direction from fci to foe":{
+        "type": "custom",
+        "function": "direction_from_fci_to_foe"
+    }
+}
