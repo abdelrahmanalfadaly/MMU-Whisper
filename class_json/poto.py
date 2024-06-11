@@ -4,6 +4,9 @@ import os
 import datetime
 import time
 import json
+import speech_recognition as sr
+import pyttsx3
+import pyaudio
 
 def install_and_update_packages(packages):
     subprocess.check_call([sys.executable, "-m", "pip", "install", "--upgrade", "pip"])
@@ -190,7 +193,7 @@ def main():
             print(response)
             speak(response)
         
-        elif "next class for taday" in command or "what is my next class" in command:
+        elif "next class for today" in command or "what is my next class" in command:
             next_class = get_next_class(schedule)
             if next_class:
                 response = f"Your next class is {next_class['subject']} at {datetime.datetime.strptime(next_class['start_time'], '%H:%M:%S').strftime('%I:%M %p')}."
@@ -199,7 +202,7 @@ def main():
             print(response)
             speak(response)
 
-        elif "where is my next class" in command or "next class location" in command:
+        elif "where is my next class" in command or "location for next class" in command:
             next_class = get_next_class(schedule)
             if next_class:
                 response = f"Your next class is in {next_class['location']}."
@@ -208,16 +211,12 @@ def main():
             print(response)
             speak(response)
 
-        elif "do i have class on" in command:
-            try:
-                day = command.split("on ")[1]
-                classes_on_day_count = count_classes(schedule, day)
-                if classes_on_day_count > 0:
-                    response = f"Yes, you have {classes_on_day_count} classes on {day}."
-                else:
-                    response = f"No, you do not have any classes on {day}."
-            except IndexError:
-                response = "Sorry, I couldn't understand the day you mentioned."
+        elif "when is my next class" in command or "time for next class":
+            next_class = get_next_class(schedule)
+            if next_class:
+                response = f"Your next class is at {datetime.datetime.strptime(next_class['start_time'], '%H:%M:%S').strftime('%I:%M %p')} on {next_class['day']}."
+            else:
+                response = "You don't have any more classes today."
             print(response)
             speak(response)
 
