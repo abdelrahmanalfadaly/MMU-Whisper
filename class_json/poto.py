@@ -100,7 +100,7 @@ def get_next_class(schedule):
     if next_classes:
         next_classes.sort(key=lambda x: x[0])
         start_time, next_class = next_classes[0]
-        return f"{next_class['subject']} at {start_time.strftime('%I:%M %p')}"
+        return next_class
     else:
         return None
 
@@ -190,10 +190,19 @@ def main():
             print(response)
             speak(response)
         
-        elif "next class" in command or "what is my next class" in command:
+        elif "next class for taday" in command or "what is my next class" in command:
             next_class = get_next_class(schedule)
             if next_class:
-                response = f"Your next class is {next_class}."
+                response = f"Your next class is {next_class['subject']} at {datetime.datetime.strptime(next_class['start_time'], '%H:%M:%S').strftime('%I:%M %p')}."
+            else:
+                response = "You don't have any more classes today."
+            print(response)
+            speak(response)
+
+        elif "where is my next class" in command or "next class location" in command:
+            next_class = get_next_class(schedule)
+            if next_class:
+                response = f"Your next class is in {next_class['location']}."
             else:
                 response = "You don't have any more classes today."
             print(response)
