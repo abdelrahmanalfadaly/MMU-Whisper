@@ -1,0 +1,83 @@
+[
+    {
+        "subject": "Math",
+        "type": "Lecture",
+        "day": "Wednesday",
+        "start_time": "10:00:00",
+        "end_time": "13:00:00",
+        "location": "CNMX0001",
+        "lecturer": "Foo Lee"
+    },
+    {
+        "subject": "Math",
+        "type": "Tutorial",
+        "day": "Wednesday",
+        "start_time": "16:00:00",
+        "end_time": "18:00:00",
+        "location": "CQCR3002",
+        "lecturer": "Suraya"
+    },
+    {
+        "subject": "Digital",
+        "type": "Lecture",
+        "day": "Wednesday",
+        "start_time": "14:00:00",
+        "end_time": "16:00:00",
+        "location": "CNMX1002",
+        "lecturer": "Noorwahida"
+    },
+    {
+        "subject": "Digital",
+        "type": "Tutorial",
+        "day": "Monday",
+        "start_time": "10:00:00",
+        "end_time": "12:00:00",
+        "location": "CQCR3002",
+        "lecturer": "Noorwahida"
+    },
+    {
+        "subject": "Physics",
+        "type": "Lecture",
+        "day": "Monday",
+        "start_time": "14:00:00",
+        "end_time": "16:00:00",
+        "location": "CNMX1003",
+        "lecturer": "Dalilla"
+    },
+    {
+        "subject": "Physics",
+        "type": "Tutorial",
+        "day": "Thursday",
+        "start_time": "08:00:00",
+        "end_time": "10:00:00",
+        "location": "CLCR1025",
+        "lecturer": "Dalilla"
+    },
+    {
+        "subject": "Mini",
+        "type": "Lecture",
+        "day": "Thursday",
+        "start_time": "15:00:00",
+        "end_time": "18:00:00",
+        "location": "CQAR0002",
+        "lecturer": "Willie Poh"
+    },
+    {
+        "subject": "English",
+        "type": "Lecture",
+        "day": "Friday",
+        "start_time": "08:00:00",
+        "end_time": "11:00:00",
+        "location": "CQAR4005",
+        "lecturer": "Zarina"
+    },
+    {
+        "subject": "Critical",
+        "type": "Lecture",
+        "day": "Friday",
+        "start_time": "15:00:00",
+        "end_time": "18:00:00",
+        "location": "CQMX0001",
+        "lecturer": "Zafira"
+    }
+]
