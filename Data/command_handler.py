@@ -79,15 +79,21 @@ def get_current_date():
     return current_date
 
 def search_on_google_maps_from(command):
-    parts = command.split("direction from")[1].strip().split(" to ")
-    if len(parts) == 2:
-        origin = parts[0].strip()
-        destination = parts[1].strip()
+    try:
+        if " to " not in command:
+            raise ValueError("Command format is incorrect. Expected 'direction from [origin] to [destination]'")
+        parts = command.split("direction from ")[1].strip().split(" to ")
+        if len(parts) != 2:
+            raise ValueError("Command must contain exactly one origin and one destination")
+        
+        origin, destination = parts[0].strip(), parts[1].strip()
         url = f"https://www.google.com/maps/dir/?api=1&origin={origin.replace(' ', '+')}&destination={destination.replace(' ', '+')}"
-        webbrowser.open(url)
+        open_url(url)
         speak(f"Opening directions from {origin} to {destination} on Google Maps")
-    else:
-        speak("Sorry, I don't understand the direction request.")
+      
+    except Exception as e:
+        speak(f"An error occurred: {str(e)}")
+
 
 def direction_from_fci_to_fom():
     url = "https://www.google.com/maps/dir/Faculty+of+Computing+%26+Informatics/Faculty+of+Management+(FOM)+@+MMU+Cyberjaya,+Persiaran+Multimedia,+63100+Cyberjaya,+Selangor/@2.9295715,101.6411213,18.25z/data=!4m13!4m12!1m5!1m1!1s0x31cdb6e9ab2c6603:0xdedb9094d553b194!2m2!1d101.6405899!2d2.9290643!1m5!1m1!1s0x31cdb6e9a19f8cdb:0xc983ff350ca6a201!2m2!1d101.6412675!2d2.9299632?hl=en&entry=ttu"
@@ -286,7 +292,7 @@ def handle_command(command, commands, output_label=None):
                 elif action["function"] == "get_current_date":
                     current_date = get_current_date()
                     update_output_text(output_label, current_date)
-                elif action["function"] == "search_on_google_maps_from":
+                elif command.startswith("google maps"):
                     search_on_google_maps_from(command)
                     update_output_text(output_label, f"Searching for directions on Google Maps.")
                 elif action["function"] == "direction_from_fci_to_fom":
