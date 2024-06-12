@@ -22,7 +22,7 @@
     },
     "pomodoro": {
         "type": "path",
-        "response": "study_tools/pomodoro_timer.py",
+        "response": "mmu_tools/pomodoro_timer.py",
         "exact_match": false
     },
     "help": {
@@ -30,6 +30,22 @@
         "response": "show_help",
         "exact_match": false
     },
+    "class": {
+        "type": "custom",
+        "response": "class_management",
+        "exact_match": false
+    },
+    "session": {
+        "type": "custom",
+        "response": "class_management",
+        "exact_match": false
+    },
+    "direction": {
+        "type": "custom",
+        "response": "campus_navigation",
+        "exact_match": false
+    },
+
     "open": {
         "type": "custom",
         "response": "ai_search_engine",

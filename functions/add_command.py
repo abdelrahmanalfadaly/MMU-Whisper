@@ -1,7 +1,7 @@
 import json
 import os
 
-COMMANDS_FILE = 'commands.json'
+COMMANDS_FILE = 'data/custom.json'
 
 def load_commands():
     if os.path.exists(COMMANDS_FILE):

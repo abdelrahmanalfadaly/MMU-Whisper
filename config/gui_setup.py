@@ -1,4 +1,8 @@
 import tkinter as tk
+from tkinter import messagebox, Listbox, Scrollbar, SINGLE
+import json
+
+CLASS_FILE = 'data/class.json'
 
 def draw_rounded_rectangle(canvas, x1, y1, x2, y2, radius, **kwargs):
     points = [x1 + radius, y1,
@@ -134,3 +138,4 @@ def update_output_text(output_label, text):
     if output_label:
         output_label.config(text=text)
         output_label.update_idletasks()
+

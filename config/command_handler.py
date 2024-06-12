@@ -1,3 +1,4 @@
+import re
 import os
 import json
 import subprocess
@@ -5,15 +6,22 @@ import webbrowser
 import threading
 import queue
 import requests
+import pyttsx3
 from pyttsx3 import init as init_engine
-from datetime import datetime
+import datetime
 import speech_recognition as sr
+import tkinter as tk
 from bs4 import BeautifulSoup
-from tkinter import Toplevel, Label, Scrollbar, Text, VERTICAL, RIGHT, Y, END, Button
-from functions.gui_setup import *
+from tkinter import Toplevel, Label, Scrollbar, Text, VERTICAL, RIGHT, Y, END, Button, messagebox, Listbox, SINGLE
+import datetime
+from config.gui_setup import *
+from mmu_tools.class_management import *
+from mmu_tools.campus_navigation import *
+from functions.weather import *
 
-COMMANDS_FILE = 'config/commands.json'
-CUSTOM_COMMANDS_FILE = 'config/custom.json'
+COMMANDS_FILE = 'data/commands.json'
+CUSTOM_COMMANDS_FILE = 'data/custom.json'
+CLASS_FILE = 'data/class.json'
 output_queue = queue.Queue()
 
 def Speach_Recognition(output_label):
@@ -58,14 +66,13 @@ def display_and_speak(text, output_label):
     threading.Thread(target=speak, args=(text,)).start()
     update_gui(output_label)
 
-
 def open_resource(path_or_url, command_phrase, output_label, is_url=False):
     try:
         display_and_speak(f"Opening {command_phrase}", output_label)
         if is_url:
             webbrowser.open(path_or_url)
         else:
-            full_path = os.path.abspath(path_or_url)  # Get the absolute path
+            full_path = os.path.abspath(path_or_url)  
             if os.name == 'nt':
                 os.startfile(full_path)
             elif os.uname().sysname == 'Darwin':
@@ -77,7 +84,7 @@ def open_resource(path_or_url, command_phrase, output_label, is_url=False):
         print(e)
 
 def date_and_time(command, output_label):
-    now = datetime.now()
+    now = datetime.datetime.now()
     current_time = now.strftime("%I:%M %p")
     current_date = now.strftime("%B %d, %Y")
     if "time" in command:
@@ -86,36 +93,8 @@ def date_and_time(command, output_label):
         display_and_speak(f"Today's date is {current_date}", output_label)
 
 def get_weather_report(command, output_label):
-    def get_ipv6_address():
-        response = requests.get("https://api64.ipify.org?format=json")
-        data = response.json()
-        return data.get('ip')
-
-    def get_location(ip):
-        response = requests.get(f"https://ipinfo.io/{ip}")
-        data = response.json()
-        return data['city']
-
-    ipv6 = get_ipv6_address()
-    if ipv6:
-        location = get_location(ipv6)
-        if location:
-            url = f"http://wttr.in/{location}?format=j1"
-            response = requests.get(url)
-            data = response.json()
-
-            if response.status_code == 200 and 'current_condition' in data:
-                current_condition = data['current_condition'][0]
-                temp_c = current_condition['temp_C']
-                description = current_condition['weatherDesc'][0]['value']
-                weather_report = f"The current weather in {location} is {temp_c}°C, {description}."
-                display_and_speak(weather_report, output_label)
-            else:
-                display_and_speak("Could not retrieve weather data.", output_label)
-        else:
-            display_and_speak("Could not determine location.", output_label)
-    else:
-        display_and_speak("Could not retrieve IP address.", output_label)
+    weather_report = fetch_weather_report()
+    display_and_speak(weather_report, output_label)
 
 def ai_search_engine(command, output_label):
     user_home_dir = os.path.expanduser("~")
@@ -138,7 +117,7 @@ def ai_search_engine(command, output_label):
         if search_term:
             found = search_and_open(search_term, search_dir)
             if found:
-                display_and_speak(f"Opened {command_part.split()[0]}: {search_term}", output_label)
+                display_and_speak(f"Opened: {search_term}", output_label)
             else:
                 display_and_speak(f"{search_term} not found: ", output_label)
 
@@ -169,8 +148,11 @@ def show_help(command, output_label):
         "\n2) Open - say open \"(e.g. Youtube)\" website, or say open \"(e.g. download)\" folder, or say open \"(e.g. notes.txt)\" file, that will search for whatever you ask for.\n"
         "\n3) Time - tells the current time\n"
         "\n4) Date - tells the current date\n"
-        "\n5) Weather - tells the current location's weather"
-        "\n6) pomodoro - Opens Pomodoro timer"
+        "\n5) Weather - tells the current location's weather\n"
+        "\n6) pomodoro - Opens Pomodoro timer\n"
+        "\n7) session / class - What is my next class - classes on monday\n"
+        "\n8) directions / from (e.g. FCI) to (e.g. FOE)\n"
+        "\nMore coming soon...\n"
         "\n\n\nYour Custom Commands:\n"
     )
     for cmd in commands.keys():
@@ -189,24 +171,37 @@ def show_help(command, output_label):
     scrollbar.pack(side=RIGHT, fill=Y)
 
     text_widget.tag_configure("title", font=("Helvetica", 16, "bold"))
-    text_widget.tag_add("title", "1.0", "1.24")  # Apply title style to "Welcome to MMU Whisper"
-    text_widget.tag_add("title", "1.26", "1.53")  # Apply title style to "Available Custom Commands"
+    text_widget.tag_add("title", "1.0", "1.24")  
+    text_widget.tag_add("title", "1.26", "1.53") 
     
     def open_commands_json():
-        open_resource('custom.json', 'custom commands file', output_label)
+        open_resource(CUSTOM_COMMANDS_FILE, 'custom commands file', output_label)
     
     open_button = Button(help_window, text="Custom Commands", command=open_commands_json)
     open_button.pack(pady=10)
+
+def campus_navigation(command, output_label):
+    from mmu_tools.campus_navigation import extract_directions, create_google_maps_url
+
+    origin, destination = extract_directions(command)
     
+    if origin and destination:
+        url = create_google_maps_url(origin, destination)
+        display_and_speak(f"Navigating from {origin} to {destination}", output_label)
+        webbrowser.open(url)
+    else:
+        display_and_speak("Couldn't detect a valid direction query.", output_label)
+
+
 def start_speech_recognition(output_label):
     threading.Thread(target=listen_and_handle_commands, args=(output_label,)).start()
 
 def handle_command(command, output_label):
     commands = load_commands()
-    command = command.lower()  # Convert the input command to lowercase
+    command = command.lower() 
     print(f"{command}")
     for cmd, action in commands.items():
-        cmd = cmd.lower()  # Ensure the command keys are also in lowercase
+        cmd = cmd.lower()  
         if (action.get("exact_match") and cmd == command) or (not action.get("exact_match") and cmd in command):
             if action["type"] == "speak":
                 display_and_speak(action["response"], output_label)
@@ -230,4 +225,4 @@ def update_gui(output_label):
         output_label.update_idletasks()
     except queue.Empty:
         pass
-    output_label.after(100, update_gui, output_label)  # Continue to check for updates
+    output_label.after(100, update_gui, output_label) 

@@ -1,5 +1,5 @@
-from functions.command_handler import *
-from functions.gui_setup import *
+from config.command_handler import *
+from config.gui_setup import *
 
 def main(mode, output_label=None):
     print(f"Starting main with mode: {mode}")
@@ -45,7 +45,7 @@ def main(mode, output_label=None):
 def on_enter(event, output_label):
     command = event.widget.get()
     handle_command(command, output_label)
-    event.widget.delete(0, 'end')  # Clear the input field
+    event.widget.delete(0, 'end')
 
 def switch_mode(new_mode, root, current_mode, output_label):
     print(f"Switching mode from {current_mode} to {new_mode}")

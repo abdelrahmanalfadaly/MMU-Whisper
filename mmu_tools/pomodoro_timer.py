@@ -3,12 +3,10 @@ import threading
 import pygame
 import os
 
-# Initialize pygame mixer for playing sounds
 pygame.mixer.init()
 
-# Constants for the timer
-STUDY_TIME = 0.1  # in minutes
-SHORT_BREAK_TIME = 0.2  # in minutes
+STUDY_TIME = 0.1 
+SHORT_BREAK_TIME = 0.2 
 CYCLE = 4
 
 STUDY_SEC = int(STUDY_TIME * 60)
@@ -17,7 +15,6 @@ SHORT_BREAK_SEC = int(SHORT_BREAK_TIME * 60)
 STUDY_SOUND_FILE = "data\\Sounds\\break.mp3"
 SHORT_BREAK_SOUND_FILE = "data\\Sounds\\study.mp3"
 
-# Function to play local sound file
 def play_sound(file_path):
     try:
         pygame.mixer.music.load(file_path)
@@ -98,7 +95,7 @@ class PomodoroTimer:
             threading.Thread(target=play_sound, args=(STUDY_SOUND_FILE if self.is_study else SHORT_BREAK_SOUND_FILE,)).start()
             if self.is_study:
                 self.is_study = False
-                self.start_break()  # Automatically start break session
+                self.start_break() 
             else:
                 self.reps += 1
                 if self.reps % CYCLE == 0:
@@ -106,7 +103,7 @@ class PomodoroTimer:
                     self.timer_running = False
                 else:
                     self.is_study = True
-                    self.start_timer()  # Automatically start study session
+                    self.start_timer()  
 
 def run():
     root = tk.Tk()

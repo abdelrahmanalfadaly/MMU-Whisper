@@ -1,0 +1,11 @@
+[
+    {
+        "subject": "test",
+        "type": "test",
+        "day": "test",
+        "start_time": "test",
+        "end_time": "test",
+        "location": "test",
+        "lecturer": "test"
+    }
+]
