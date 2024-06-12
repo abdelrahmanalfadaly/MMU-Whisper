@@ -1,13 +1,21 @@
 from tkinter import *
 from PIL import ImageTk, Image
-import mysql.connector
+import json
+import os
 
-db_config = {
-    'user': 'root',
-    'password': 'Belal78@',
-    'host': 'localhost',
-    'database': 'mmu'
-}
+def get_schedule_file_path():
+    return os.path.join(os.path.dirname(__file__), 'data.json')
+
+def load_schedule():
+    try:
+        with open(get_schedule_file_path(), 'r') as file:
+            return json.load(file)
+    except FileNotFoundError:
+        return []
+
+def save_schedule(schedule):
+    with open(get_schedule_file_path(), 'w') as file:
+        json.dump(schedule, file, indent=4)
 
 def add_data():
     subject = subject_entry.get()
@@ -22,29 +30,44 @@ def add_data():
         print("Error: All fields are required")
         return
 
-    try:
-        connection = mysql.connector.connect(**db_config)
-        cursor = connection.cursor()
+    schedule = load_schedule()
 
-        check_sql = "SELECT * FROM classes WHERE subject=%s AND type=%s"
-        cursor.execute(check_sql, (subject, class_type))
-        result = cursor.fetchone()
+    for row in schedule:
+        if row['subject'].lower() == subject.lower() and row['type'].lower() == class_type.lower():
+            print("Class already exists")
+            return
 
-        if result:
-            print("Already exists")
-        else:
-            sql = "INSERT INTO classes (subject, type, day, start_time, end_time, location, lecturer) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-            data = (subject, class_type, day, start_time, end_time, location, lecturer)
-            cursor.execute(sql, data)
-            connection.commit()
-            print("Class added successfully")
-    except mysql.connector.Error as err:
-        print(f"Error: {err}")
-    finally:
-        cursor.close()
-        connection.close()
-def delete():
-    print("Still working on this button")
+    new_class = {
+        'subject': subject,
+        'type': class_type,
+        'day': day,
+        'start_time': start_time,
+        'end_time': end_time,
+        'location': location,
+        'lecturer': lecturer
+    }
+    
+    schedule.append(new_class)
+    save_schedule(schedule)
+    print("Class added successfully")
+
+def delete_data():
+    subject = subject_entry.get()
+    class_type = type_entry.get()
+
+    if not subject or not class_type:
+        print("Error: Subject and Type fields are required")
+        return
+
+    schedule = load_schedule()
+
+    new_schedule = [row for row in schedule if not (row['subject'].lower() == subject.lower() and row['type'].lower() == class_type.lower())]
+
+    if len(new_schedule) == len(schedule):
+        print("No matching class found to delete")
+    else:
+        save_schedule(new_schedule)
+        print("Class deleted successfully")
 
 root = Tk()
 root.title("MMU Whisper")
@@ -99,7 +122,7 @@ lecturer_entry.place(x=120, y=360)
 add_button = Button(root, text="Add", width=10, background="#CC7726", command=add_data)
 add_button.place(x=180, y=400)
 
-delete_button = Button(root, text="Delete", width=10, background="#CC7726", command=delete)
+delete_button = Button(root, text="Delete", width=10, background="#CC7726", command=delete_data)
 delete_button.place(x=260, y=400)
 
 root.mainloop()
