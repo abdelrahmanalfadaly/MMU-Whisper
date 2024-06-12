@@ -214,6 +214,32 @@ def direction_from_library_to_foe():
     webbrowser.open(url)
     speak("Opening directions from Library to FOE on Google Maps")     
 
+def direction_from_fcm_to_fci():
+    url = "https://www.google.com/maps/dir/Faculty+of+Creative+Multimedia+(FCM),+Multimedia+University+-+MMU+Cyberjaya,+Cyberjaya,+Selangor/Faculty+of+Computing+%26+Informatics,+Multimedia+University,+Persiaran+Multimedia,+63100+Cyberjaya,+Selangor/@2.9284174,101.6394593,17z/data=!3m1!4b1!4m13!4m12!1m5!1m1!1s0x31cdb6e620ee76a1:0x8d156f59872affd7!2m2!1d101.6431581!2d2.9261747!1m5!1m1!1s0x31cdb6e9ab2c6603:0xdedb9094d553b194!2m2!1d101.6405899!2d2.9290643?hl=en&entry=ttu"
+    webbrowser.open(url)
+    speak("Opening directions from FCM to FCI on Google Maps")
+def direction_from_fcm_to_fom():
+    url = "https://www.google.com/maps/dir/Faculty+of+Creative+Multimedia+(FCM)/Faculty+of+Management+(FOM)+@+MMU+Cyberjaya,+Persiaran+Multimedia,+63100+Cyberjaya,+Selangor/@2.9285867,101.6396379,17z/data=!3m1!4b1!4m13!4m12!1m5!1m1!1s0x31cdb6e620ee76a1:0x8d156f59872affd7!2m2!1d101.6431581!2d2.9261747!1m5!1m1!1s0x31cdb6e9a19f8cdb:0xc983ff350ca6a201!2m2!1d101.6412675!2d2.9299632?hl=en&entry=ttu"
+    webbrowser.open(url)
+    speak("Opening directions from FCM to FOM on Google Maps")
+def direction_from_fcm_to_dtc():
+    url = "https://www.google.com/maps/dir/Faculty+of+Creative+Multimedia+(FCM)/Dewan+Tun+Canselor,+63000+Cyberjaya,+Selangor/@2.9276552,101.6414169,18z/data=!3m1!4b1!4m13!4m12!1m5!1m1!1s0x31cdb6e620ee76a1:0x8d156f59872affd7!2m2!1d101.6431581!2d2.9261747!1m5!1m1!1s0x31cdb6e91af90d0b:0x397f973de1f102c0!2m2!1d101.6423872!2d2.9291363?hl=en&entry=ttu"
+    webbrowser.open(url)
+    speak("Opening directions from FCM to DTC on Google Maps")
+def direction_from_fcm_to_lecture_complex():
+    url = "https://www.google.com/maps/dir/Faculty+of+Creative+Multimedia+(FCM)/Central+Lecture+Complex,+63000+Cyberjaya,+Selangor/@2.9270144,101.6401813,17z/data=!3m1!4b1!4m13!4m12!1m5!1m1!1s0x31cdb6e620ee76a1:0x8d156f59872affd7!2m2!1d101.6431581!2d2.9261747!1m5!1m1!1s0x31cdb6e8ee9603fb:0x5e22e91aeb8f5c0d!2m2!1d101.6424968!2d2.9278174?hl=en&entry=ttu"
+    webbrowser.open(url)
+    speak("Opening directions from FCM to Central Lecture Complex on Google Maps")
+def direction_from_fcm_to_library():
+    url = "https://www.google.com/maps/dir/Faculty+of+Creative+Multimedia+(FCM)/Siti+Hasmah+Digital+Library+Multimedia+University,+Jalan+Multimedia,+63000+Cyberjaya,+Selangor/@2.9262307,101.6407475,18z/data=!3m1!4b1!4m13!4m12!1m5!1m1!1s0x31cdb6e620ee76a1:0x8d156f59872affd7!2m2!1d101.6431581!2d2.9261747!1m5!1m1!1s0x31cdb6e88b8bd7b5:0xaa996a4c4300b49a!2m2!1d101.6416346!2d2.9275867?hl=en&entry=ttu"
+    webbrowser.open(url)
+    speak("Opening directions from FCM to Library on Google Maps")
+def direction_from_fcm_to_foe():
+    url = "https://www.google.com/maps/dir/Faculty+of+Creative+Multimedia+(FCM),+Multimedia+University+-+MMU+Cyberjaya,+Cyberjaya,+Selangor/Faculty+of+Engineering,+Multimedia+University+-+MMU+Cyberjaya,+Persiaran+Multimedia,+63100+Cyberjaya,+Selangor/@2.9256773,101.6409258,18z/data=!3m1!4b1!4m13!4m12!1m5!1m1!1s0x31cdb6e620ee76a1:0x8d156f59872affd7!2m2!1d101.6431581!2d2.9261747!1m5!1m1!1s0x31cdb6e87ea95201:0x56a1170947b3c79!2m2!1d101.6411458!2d2.9263857?hl=en&entry=ttu"
+    webbrowser.open(url)
+    speak("Opening directions from FCM to FOE on Google Maps")     
+
+
 def handle_command(command, commands, output_label=None):
     for keyword, action in commands.items():
         if keyword in command:
@@ -328,9 +354,26 @@ def handle_command(command, commands, output_label=None):
                     update_output_text(output_label, f"Opening direction from Library to FCM on Google Maps.")
                 elif action["function"] == "direction_from_library_to_foe":
                     direction_from_library_to_foe()
-                    update_output_text(output_label, f"Opening direction from Library to FOE on Google Maps.")
-                elif action["function"] == "direction_from_dtc_to_fci":
-                 return False
+                    update_output_text(output_label, f"Opening direction from Library to FOE on Google Maps.")     
+                elif action["function"] == "direction_from_fcm_to_fci":
+                    direction_from_fcm_to_fci()
+                    update_output_text(output_label, f"Opening direction from FCM to FCI on Google Maps.")
+                elif action["function"] == "direction_from_fcm_to_fom":
+                    direction_from_fcm_to_fom()
+                    update_output_text(output_label, f"Opening direction from FCM to FOM on Google Maps.")
+                elif action["function"] == "direction_from_fcm_to_dtc":
+                    direction_from_fcm_to_dtc()
+                    update_output_text(output_label, f"Opening direction from FCM to DTC on Google Maps.")
+                elif action["function"] == "direction_from_fcm_to_lecture_complex":
+                    direction_from_fcm_to_lecture_complex()
+                    update_output_text(output_label, f"Opening direction from FCM to Central Lecture Complex on Google Maps.")
+                elif action["function"] == "direction_from_fcm_to_library":
+                    direction_from_fcm_to_library()
+                    update_output_text(output_label, f"Opening direction from FCM to Library on Google Maps.")
+                elif action["function"] == "direction_from_fcm_to_foe":
+                    direction_from_fcm_to_foe()
+                    update_output_text(output_label, f"Opening direction from FCM to FOE on Google Maps.")              
+                    return False
     return True
 
 def add_new_command(commands):
