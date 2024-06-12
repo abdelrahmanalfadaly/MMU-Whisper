@@ -1,4 +1,5 @@
 from functions import *
+import subprocess
 import os
 
 def main():
@@ -100,19 +101,31 @@ def main():
             response = "Opening the class management window."
             print(response)
             speak(response)
-            subprocess.Popen([sys.executable, 'GUI.py'])
+            try:
+                print("Attempting to open page_3.py for adding a class.")
+                subprocess.Popen([sys.executable, 'page_3.py'])
+            except Exception as e:
+                print(f"Failed to open page_3.py: {e}")
 
         elif "delete class" in command:
             response = "Opening the class management window."
             print(response)
             speak(response)
-            subprocess.Popen([sys.executable, 'GUI.py'])
+            try:
+                print("Attempting to open page_3.py for deleting a class.")
+                subprocess.Popen([sys.executable, 'page_3.py'])
+            except Exception as e:
+                print(f"Failed to open page_3.py: {e}")
 
         elif "update class" in command:
             response = "Opening the class management window."
             print(response)
             speak(response)
-            subprocess.Popen([sys.executable, 'GUI.py'])
+            try:
+                print("Attempting to open page_3.py for updating a class.")
+                subprocess.Popen([sys.executable, 'page_3.py'])
+            except Exception as e:
+                print(f"Failed to open page_3.py: {e}")
 
         else:
             response = "Sorry, I don't understand."
