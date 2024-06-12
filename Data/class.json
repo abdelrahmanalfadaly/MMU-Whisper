@@ -1,11 +1,20 @@
 [
     {
-        "subject": "test",
-        "type": "test",
-        "day": "test",
-        "start_time": "test",
-        "end_time": "test",
-        "location": "test",
-        "lecturer": "test"
+        "subject": "English",
+        "type": "Lecture",
+        "day": "Monday",
+        "start_time": "8 AM",
+        "end_time": "10 AM",
+        "location": "FCI ",
+        "lecturer": "Asra"
+    },
+    {
+        "subject": "IT Project",
+        "type": "Lecture",
+        "day": "Thursday",
+        "start_time": "4 PM",
+        "end_time": "6 PM",
+        "location": "FCI ",
+        "lecturer": "Willi"
     }
 ]

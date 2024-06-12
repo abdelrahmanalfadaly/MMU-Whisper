@@ -76,6 +76,7 @@ def class_management(command, output_label):
 
         schedule.append(new_class)
         save_schedule(schedule)
+        load_class_list() 
         messagebox.showinfo("Success", "Class added successfully")
 
     def delete_data():
