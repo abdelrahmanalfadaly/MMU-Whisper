@@ -232,6 +232,12 @@ def main():
             speak(response)
             subprocess.Popen([sys.executable, 'page_3.py'])
 
+        elif "update class" in command:
+            response = "Opening the class management window."
+            print(response)
+            speak(response)
+            subprocess.Popen([sys.executable, 'page_3.py'])
+
         else:
             response = "Sorry, I don't understand."
             print(response)
