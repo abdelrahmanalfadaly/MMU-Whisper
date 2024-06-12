@@ -133,7 +133,7 @@ def main():
     
     while True:
         command = listen_for_commands()
-        if "hello" in command:
+        if "hello" in command or "hi" in command:
             response = "Hello There, I am MMU Whisper, your Smart Campus Voice Companion."
             print(response)
             speak(response)
@@ -211,7 +211,7 @@ def main():
             print(response)
             speak(response)
 
-        elif "when is my next class" in command or "time for next class":
+        elif "when is my next class" in command or "time for next class" in command:
             next_class = get_next_class(schedule)
             if next_class:
                 response = f"Your next class is at {datetime.datetime.strptime(next_class['start_time'], '%H:%M:%S').strftime('%I:%M %p')} on {next_class['day']}."
@@ -219,6 +219,18 @@ def main():
                 response = "You don't have any more classes today."
             print(response)
             speak(response)
+
+        elif "add class" in command:
+            response = "Opening the class management window."
+            print(response)
+            speak(response)
+            subprocess.Popen([sys.executable, 'page_3.py'])
+
+        elif "delete class" in command:
+            response = "Opening the class management window."
+            print(response)
+            speak(response)
+            subprocess.Popen([sys.executable, 'page_3.py'])
 
         else:
             response = "Sorry, I don't understand."
