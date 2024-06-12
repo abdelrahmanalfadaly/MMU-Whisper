@@ -182,6 +182,30 @@
     "direction from fcm to foe":{
         "type": "custom",
         "function": "direction_from_fcm_to_foe"
+    },
+    "direction from foe to fci": {
+        "type": "custom",
+        "function": "direction_from_foe_to_fci"
+    },
+    "direction from foe to fom": {
+        "type": "custom",
+        "function": "direction_from_foe_to_fom"
+    },
+    "direction from foe to dtc": {
+        "type": "custom",
+        "function": "direction_from_foe_to_dtc"
+    },
+    "direction from foe to lecture complex":{
+        "type": "custom",
+        "function": "direction_from_foe_to_lecture_complex"
+    },
+    "direction from foe to library":{
+        "type": "custom",
+        "function": "direction_from_foe_to_library"
+    },
+    "direction from foe to fcm":{
+        "type": "custom",
+        "function": "direction_from_foe_to_fcm"
     }
 }
 
