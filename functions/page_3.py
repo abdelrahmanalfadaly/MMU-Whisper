@@ -4,7 +4,7 @@ import json
 import os
 
 def get_schedule_file_path():
-    return os.path.join(os.path.dirname(__file__), 'data.json')
+    return os.path.join(os.path.dirname(__file__), 'config/data.json')
 
 def load_schedule():
     try:
@@ -73,7 +73,7 @@ root = Tk()
 root.title("MMU Whisper")
 root.geometry("350x450")
 
-logo_image = ImageTk.PhotoImage(file="Logo.png")
+logo_image = ImageTk.PhotoImage(file="Data/UI/Logo.png")
 image_label = Label(root, image=logo_image, height=150, width=350)
 image_label.place(x=0, y=0)
 

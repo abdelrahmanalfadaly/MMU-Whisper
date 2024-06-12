@@ -2,13 +2,14 @@ import subprocess
 import sys
 import os
 import datetime
-import time
 import json
 import speech_recognition as sr
 import pyttsx3
 import pyaudio
+import subprocess
+import sys
+import os
 
-# Initialize recognizer and TTS engine
 r = sr.Recognizer()
 engine = pyttsx3.init()
 
@@ -52,14 +53,24 @@ def clock_date_custom():
     return custom_date
 
 def get_schedule_file_path():
-    return os.path.join(os.path.dirname(__file__), 'data.json')
+    file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'config', 'data.json')
+    print(f"Looking for schedule file at: {file_path}")
+    return file_path
 
 def fetch_schedule():
     try:
-        with open(get_schedule_file_path(), 'r') as file:
+        file_path = get_schedule_file_path()
+        with open(file_path, 'r') as file:
             schedule = json.load(file)
             return schedule
     except FileNotFoundError:
+        print(f"FileNotFoundError: The file {file_path} does not exist.")
+        return []
+    except json.JSONDecodeError as e:
+        print(f"JSONDecodeError: Could not parse JSON file {file_path}: {e}")
+        return []
+    except Exception as e:
+        print(f"Exception: An error occurred while reading the file {file_path}: {e}")
         return []
 
 def save_schedule(schedule):
