@@ -134,6 +134,30 @@
     "direction from lecture complex to foe":{
         "type": "custom",
         "function": "direction_from_lecture_complex_to_foe"
+    },
+    "direction from library to fci": {
+        "type": "custom",
+        "function": "direction_from_library_to_fci"
+    },
+    "direction from library to fom": {
+        "type": "custom",
+        "function": "direction_from_library_to_fom"
+    },
+    "direction from library to dtc": {
+        "type": "custom",
+        "function": "direction_from_library_to_dtc"
+    },
+    "direction from library to lecture complex":{
+        "type": "custom",
+        "function": "direction_from_library_to_lecture_complex"
+    },
+    "direction from library to fcm":{
+        "type": "custom",
+        "function": "direction_from_library_to_fcm"
+    },
+    "direction from library to foe":{
+        "type": "custom",
+        "function": "direction_from_library_to_foe"
     }
 }
 
