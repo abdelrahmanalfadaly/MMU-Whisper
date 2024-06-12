@@ -73,7 +73,7 @@ root = Tk()
 root.title("MMU Whisper")
 root.geometry("350x450")
 
-logo_image = ImageTk.PhotoImage(file="logo.png")
+logo_image = ImageTk.PhotoImage(file="Logo.png")
 image_label = Label(root, image=logo_image, height=150, width=350)
 image_label.place(x=0, y=0)
 
