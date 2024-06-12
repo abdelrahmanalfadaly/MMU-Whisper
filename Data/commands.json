@@ -110,5 +110,30 @@
     "direction from dtc to foe":{
         "type": "custom",
         "function": "direction_from_dtc_to_foe"
+    },
+    "direction from lecture complex to fci": {
+        "type": "custom",
+        "function": "direction_from_lecture_complex_to_fci"
+    },
+    "direction from lecture complex to fom": {
+        "type": "custom",
+        "function": "direction_from_lecture_complex_to_fom"
+    },
+    "direction from lecture complex to dtc": {
+        "type": "custom",
+        "function": "direction_from_lecture_complex_to_dtc"
+    },
+    "direction from lecture complex to library":{
+        "type": "custom",
+        "function": "direction_from_lecture_complex_to_library"
+    },
+    "direction from lecture complex to fcm":{
+        "type": "custom",
+        "function": "direction_from_lecture_complex_to_fcm"
+    },
+    "direction from lecture complex to foe":{
+        "type": "custom",
+        "function": "direction_from_lecture_complex_to_foe"
     }
 }
+
