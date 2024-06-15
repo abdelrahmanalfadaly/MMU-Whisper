@@ -1,211 +1,54 @@
 {
-    "hello": {
-        "type": "speak",
-        "response": "Hello there! How can I assist you today?"
-    },
-    "assignment": {
-        "type": "open",
-        "path": "C:\\Users\\User\\Desktop\\T2410_Reading Project_Answer Template.pdf"
-    },
-    "ui": {
-        "type": "open",
-        "path": "Data\\UI\\Pages"
-    },
-    "notepad": {
-        "type": "open",
-        "path": "notepad"
-    },
-    "youtube": {
-        "type": "browse",
-        "url": "https://www.youtube.com"
-    },
-    "download": {
-        "type": "open",
-        "path": "C:\\Users\\abdul\\Downloads"
-    },
-    "weather": {
-        "type": "custom",
-        "function": "get_weather"
+
+    "add command": {
+        "type": "path",
+        "response": "functions/add_command.py",
+        "exact_match": false
     },
     "time": {
         "type": "custom",
-        "function": "get_current_time"
+        "response": "date_and_time",
+        "exact_match": false
     },
     "date": {
         "type": "custom",
-        "function": "get_current_date"
+        "response": "date_and_time",
+        "exact_match": false
     },
-    "google maps": {
+    "weather": {
         "type": "custom",
-        "function": "search_on_google_maps_from"
+        "response": "get_weather_report",
+        "exact_match": false
     },
-    "direction from fci to fom": {
-        "type": "custom",
-        "function": "direction_from_fci_to_fom"
+    "pomodoro": {
+        "type": "path",
+        "response": "mmu_tools/pomodoro_timer.py",
+        "exact_match": false
     },
-    "direction from fci to dtc": {
+    "help": {
         "type": "custom",
-        "function": "direction_from_fci_to_dtc"
+        "response": "show_help",
+        "exact_match": false
     },
-    "direction from fci to lecture complex": {
+    "class": {
         "type": "custom",
-        "function": "direction_from_fci_to_lecture_complex"
+        "response": "class_management",
+        "exact_match": false
     },
-    "direction from fci to library":{
+    "session": {
         "type": "custom",
-        "function": "direction_from_fci_to_library"
+        "response": "class_management",
+        "exact_match": false
     },
-    "direction from fci to fcm":{
+    "direction": {
         "type": "custom",
-        "function": "direction_from_fci_to_fcm"
+        "response": "campus_navigation",
+        "exact_match": false
     },
-    "direction from fci to foe":{
+
+    "open": {
         "type": "custom",
-        "function": "direction_from_fci_to_foe"
-    },
-    "direction from fom to fci": {
-        "type": "custom",
-        "function": "direction_from_fom_to_fci"
-    },
-    "direction from fom to dtc": {
-        "type": "custom",
-        "function": "direction_from_fom_to_dtc"
-    },
-    "direction from fom to lecture complex": {
-        "type": "custom",
-        "function": "direction_from_fom_to_lecture_complex"
-    },
-    "direction from fom to library":{
-        "type": "custom",
-        "function": "direction_from_fom_to_library"
-    },
-    "direction from fom to fcm":{
-        "type": "custom",
-        "function": "direction_from_fom_to_fcm"
-    },
-    "direction from fom to foe":{
-        "type": "custom",
-        "function": "direction_from_fom_to_foe"
-    },
-    "direction from dtc to fci": {
-        "type": "custom",
-        "function": "direction_from_dtc_to_fci"
-    },
-    "direction from dtc to fom": {
-        "type": "custom",
-        "function": "direction_from_dtc_to_fom"
-    },
-    "direction from dtc to lecture complex": {
-        "type": "custom",
-        "function": "direction_from_dtc_to_lecture_complex"
-    },
-    "direction from dtc to library":{
-        "type": "custom",
-        "function": "direction_from_dtc_to_library"
-    },
-    "direction from dtc to fcm":{
-        "type": "custom",
-        "function": "direction_from_dtc_to_fcm"
-    },
-    "direction from dtc to foe":{
-        "type": "custom",
-        "function": "direction_from_dtc_to_foe"
-    },
-    "direction from lecture complex to fci": {
-        "type": "custom",
-        "function": "direction_from_lecture_complex_to_fci"
-    },
-    "direction from lecture complex to fom": {
-        "type": "custom",
-        "function": "direction_from_lecture_complex_to_fom"
-    },
-    "direction from lecture complex to dtc": {
-        "type": "custom",
-        "function": "direction_from_lecture_complex_to_dtc"
-    },
-    "direction from lecture complex to library":{
-        "type": "custom",
-        "function": "direction_from_lecture_complex_to_library"
-    },
-    "direction from lecture complex to fcm":{
-        "type": "custom",
-        "function": "direction_from_lecture_complex_to_fcm"
-    },
-    "direction from lecture complex to foe":{
-        "type": "custom",
-        "function": "direction_from_lecture_complex_to_foe"
-    },
-    "direction from library to fci": {
-        "type": "custom",
-        "function": "direction_from_library_to_fci"
-    },
-    "direction from library to fom": {
-        "type": "custom",
-        "function": "direction_from_library_to_fom"
-    },
-    "direction from library to dtc": {
-        "type": "custom",
-        "function": "direction_from_library_to_dtc"
-    },
-    "direction from library to lecture complex":{
-        "type": "custom",
-        "function": "direction_from_library_to_lecture_complex"
-    },
-    "direction from library to fcm":{
-        "type": "custom",
-        "function": "direction_from_library_to_fcm"
-    },
-    "direction from library to foe":{
-        "type": "custom",
-        "function": "direction_from_library_to_foe"
-    },
-    "direction from fcm to fci": {
-        "type": "custom",
-        "function": "direction_from_fcm_to_fci"
-    },
-    "direction from fcm to fom": {
-        "type": "custom",
-        "function": "direction_from_fcm_to_fom"
-    },
-    "direction from fcm to dtc": {
-        "type": "custom",
-        "function": "direction_from_fcm_to_dtc"
-    },
-    "direction from fcm to lecture complex":{
-        "type": "custom",
-        "function": "direction_from_fcm_to_lecture_complex"
-    },
-    "direction from fcm to library":{
-        "type": "custom",
-        "function": "direction_from_fcm_to_library"
-    },
-    "direction from fcm to foe":{
-        "type": "custom",
-        "function": "direction_from_fcm_to_foe"
-    },
-    "direction from foe to fci": {
-        "type": "custom",
-        "function": "direction_from_foe_to_fci"
-    },
-    "direction from foe to fom": {
-        "type": "custom",
-        "function": "direction_from_foe_to_fom"
-    },
-    "direction from foe to dtc": {
-        "type": "custom",
-        "function": "direction_from_foe_to_dtc"
-    },
-    "direction from foe to lecture complex":{
-        "type": "custom",
-        "function": "direction_from_foe_to_lecture_complex"
-    },
-    "direction from foe to library":{
-        "type": "custom",
-        "function": "direction_from_foe_to_library"
-    },
-    "direction from foe to fcm":{
-        "type": "custom",
-        "function": "direction_from_foe_to_fcm"
+        "response": "ai_search_engine",
+        "exact_match": false
     }
 }
-
