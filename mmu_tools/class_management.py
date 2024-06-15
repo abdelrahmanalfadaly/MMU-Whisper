@@ -1,30 +1,19 @@
 import os
 import json
-import subprocess
-import webbrowser
-import threading
-import queue
-import requests
-from pyttsx3 import init as init_engine
 import datetime
-import speech_recognition as sr
-from bs4 import BeautifulSoup
-from tkinter import Toplevel, Label, Scrollbar, Text, VERTICAL, RIGHT, Y, END, Button, messagebox, Listbox, SINGLE
-import re
 import pyttsx3
-from config.gui_setup import *
-import datetime
+import re
 import tkinter as tk
 from tkinter import messagebox, Listbox, Scrollbar, SINGLE
-import pyttsx3
+from config.gui_setup import *
 
-
+CLASS_FILE = 'data/class.json'
 
 def class_management(command, output_label):
     root = tk.Tk()
     root.title("Class Management")
     root.geometry("400x500")
-    root.withdraw() 
+    root.withdraw()
 
     def load_schedule():
         try:
@@ -43,6 +32,15 @@ def class_management(command, output_label):
         engine = pyttsx3.init()
         engine.say(text)
         engine.runAndWait()
+
+    def speak_and_display(text):
+        output_label.config(text=text)
+        output_label.update_idletasks()
+        print(text)
+        speak(text)
+
+    def convert_to_12hr_format(time_str):
+        return datetime.datetime.strptime(time_str, "%H:%M").strftime("%I:%M %p")
 
     def add_data():
         subject = subject_entry.get()
@@ -68,15 +66,15 @@ def class_management(command, output_label):
             'subject': subject,
             'type': class_type,
             'day': day,
-            'start_time': start_time,
-            'end_time': end_time,
+            'start_time': convert_to_12hr_format(start_time),
+            'end_time': convert_to_12hr_format(end_time),
             'location': location,
             'lecturer': lecturer
         }
 
         schedule.append(new_class)
         save_schedule(schedule)
-        load_class_list() 
+        load_class_list()
         messagebox.showinfo("Success", "Class added successfully")
 
     def delete_data():
@@ -88,7 +86,7 @@ def class_management(command, output_label):
         schedule = load_schedule()
         del schedule[selected_class_index[0]]
         save_schedule(schedule)
-        load_class_list() 
+        load_class_list()
         messagebox.showinfo("Success", "Class deleted successfully")
 
     def get_classes_today(schedule):
@@ -101,8 +99,8 @@ def class_management(command, output_label):
         next_classes = []
 
         for row in schedule:
-            class_start_time = row['start_time']
-            if row['day'].lower() == today and class_start_time > now.strftime("%I:%M %p"):
+            class_start_time = datetime.datetime.strptime(row['start_time'], "%I:%M %p")
+            if row['day'].lower() == today and class_start_time.time() > now.time():
                 next_classes.append((class_start_time, row))
 
         if next_classes:
@@ -153,8 +151,7 @@ def class_management(command, output_label):
                         response = "There are no more classes today."
 
         if response:
-            print(response)
-            speak(response)
+            speak_and_display(response)
 
     def load_class_list():
         schedule = load_schedule()
@@ -162,15 +159,14 @@ def class_management(command, output_label):
         for cls in schedule:
             class_listbox.insert(tk.END, f"{cls['subject']} ({cls['type']}) on {cls['day']} from {cls['start_time']} to {cls['end_time']} at {cls['location']}")
 
-
     root = tk.Tk()
     root.title("Class Management")
     root.geometry("400x500")
-    root.withdraw()  
+    root.withdraw()
 
     title_label = tk.Label(root, text="Your Sessions", font=("arial", 16, "bold"))
     title_label.place(x=20, y=10)
-  
+
     class_listbox = Listbox(root, selectmode=SINGLE)
     class_listbox.place(x=20, y=50, width=360, height=120)
 
@@ -211,7 +207,6 @@ def class_management(command, output_label):
     end_entry = tk.Entry(root)
     end_label.place(x=20, y=340)
 
-    end_entry = tk.Entry(root)
     end_entry.place(x=120, y=340)
 
     location_label = tk.Label(root, text="Location", font=("arial", 12, "bold"))
@@ -228,7 +223,6 @@ def class_management(command, output_label):
 
     add_button = tk.Button(root, text="Add", width=10, background="#CC7726", command=add_data)
     add_button.place(x=180, y=440)
-
 
     load_class_list()
 

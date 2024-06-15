@@ -14,6 +14,7 @@ import tkinter as tk
 from bs4 import BeautifulSoup
 from tkinter import Toplevel, Label, Scrollbar, Text, VERTICAL, RIGHT, Y, END, Button, messagebox, Listbox, SINGLE
 import datetime
+import platform
 from config.gui_setup import *
 from mmu_tools.class_management import *
 from mmu_tools.campus_navigation import *
@@ -97,41 +98,83 @@ def get_weather_report(command, output_label):
     display_and_speak(weather_report, output_label)
 
 def ai_search_engine(command, output_label):
-    user_home_dir = os.path.expanduser("~")
-    search_dir = os.path.join(user_home_dir, "OneDrive")
+    def clean_command(command, command_type):
+        if command_type == "file_or_folder":
+            for word in ["file", "folder", "open"]:
+                command = command.lower().replace(word, "").strip()
+        elif command_type == "website":
+            command = command.lower().replace("website", "").strip()
+        return command
 
-    def open_path(filepath):
-        open_resource(filepath, filepath, output_label)
+    def open_path(path):
+        if os.path.isdir(path):
+            if platform.system() == "Windows":
+                subprocess.run(["explorer", path])
+            elif platform.system() == "Darwin":  # macOS
+                subprocess.run(["open", path])
+            else:  # Linux and other Unix-like systems
+                subprocess.run(["xdg-open", path])
+        else:
+            if platform.system() == "Windows":
+                os.startfile(path)
+            elif platform.system() == "Darwin":  # macOS
+                subprocess.run(["open", path])
+            else:  # Linux and other Unix-like systems
+                subprocess.run(["xdg-open", path])
 
-    def search_and_open(search_term, search_dir):
-        for root, dirs, files in os.walk(search_dir):
-            for name in dirs + files:
-                if search_term.lower() in name.lower():
-                    path = os.path.join(root, name)
-                    open_path(path)
-                    return True
+    def search_and_open(search_term, search_dirs):
+        for search_dir in search_dirs:
+            print(f"Searching in directory: {search_dir}")
+            for root, dirs, files in os.walk(search_dir):
+                for name in dirs + files:
+                    if search_term.lower() in name.lower():
+                        path = os.path.join(root, name)
+                        open_path(path)
+                        return True
         return False
 
-    def process_folder_file_program_command(command_part, search_dir):
-        search_term = command_part.replace("folder", "").replace("file", "").replace("program", "").strip()
-        if search_term:
-            found = search_and_open(search_term, search_dir)
-            if found:
-                display_and_speak(f"Opened: {search_term}", output_label)
-            else:
-                display_and_speak(f"{search_term} not found: ", output_label)
+    def get_base_url(url):
+        parts = url.split('/')
+        if len(parts) > 2:
+            base_url = f"{parts[0]}//{parts[2]}"
+            return base_url
+        return url
 
-    def process_website_command(command_part):
-        website_url = command_part.replace("website", "").strip().replace(" ", "") + ".com"
-        open_resource("http://" + website_url, website_url, output_label, is_url=True)
+    def search_and_open_website(search_query):
+        search_url = f"https://www.google.com/search?q={search_query}"
+        response = requests.get(search_url)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        
+        for link in soup.find_all('a'):
+            href = link.get('href')
+            if href and 'url?q=' in href:
+                url = href.split('url?q=')[1].split('&')[0]
+                if url.startswith("http") and not 'maps.google.com' in url:
+                    main_url = get_base_url(url)
+                    webbrowser.open(main_url)
+                    print(f"Opened URL: {main_url}")
+                    return True
+        print("Website not found. Please try again.")
+        return False
+
+    user_home_dir = os.path.expanduser("~")
+    search_dirs = [os.path.join(user_home_dir, "OneDrive")]
 
     command_part = command.lower().split("open", 1)[1].strip()
-    if any(x in command_part for x in ["folder", "file", "program"]):
-        process_folder_file_program_command(command_part, search_dir)
+    if any(x in command_part for x in ["folder", "file"]):
+        search_term = clean_command(command_part, "file_or_folder")
+        found = search_and_open(search_term, search_dirs)
+        if found:
+            print(f"Opened: {search_term}")
+        else:
+            print(f"{search_term} not found.")
     elif "website" in command_part:
-        process_website_command(command_part)
+        search_term = clean_command(command_part, "website")
+        found = search_and_open_website(search_term)
+        if found:
+            print(f"Searching for website: {search_term}")
     else:
-        display_and_speak(f"{command} is Unrecognized", output_label)
+        display_and_speak(f"{command} is unrecognized", output_label)
 
 def show_help(command, output_label):
     def load_custom_commands():
@@ -144,16 +187,14 @@ def show_help(command, output_label):
     help_text = (
         "Welcome to MMU Whisper\n"
         "\nDefault Commands List:\n"
-        "\n1) Add command - allows you to add custom commands phrases that opens URL, folders, files, and program\n"
-        "\n2) Open - say open \"(e.g. Youtube)\" website, or say open \"(e.g. download)\" folder, or say open \"(e.g. notes.txt)\" file, that will search for whatever you ask for.\n"
-        "\n3) Time - tells the current time\n"
-        "\n4) Date - tells the current date\n"
-        "\n5) Weather - tells the current location's weather\n"
-        "\n6) pomodoro - Opens Pomodoro timer\n"
-        "\n7) session / class - What is my next class - classes on monday\n"
-        "\n8) directions / from (e.g. FCI) to (e.g. FOE)\n"
-        "\nMore coming soon...\n"
-        "\n\n\nYour Custom Commands:\n"
+        "\n1) Campus Navigation / Say: \"Dicrections from (e.g. FCI) to (e.g. FOE)\"\n"
+        "\n2) AI search engine - Whisper can search for whatever you ask for.\nsay: \"open (e.g. Youtube) website\", or \"open (e.g. download) folder\", or \"open (e.g. notes.txt) file\" \n"
+        "\n3) Current Time and Date - Displays when \"time\" or \"date\" is detected in your command \n"
+        "\n4) Current Weather- Displays when \"weather\"is detected in your command\n"
+        "\n5) Timer - Opens Pomodoro when \"timer\" is detected in your command\n"
+        "\n6) Class Management - Insert your sessions schduel by saying \"Add class\",  then you may ask \"What is my next class\" or \"classes on (e.g. Monday)\"\n"
+        "\n7) Customized commands - you can add custom commands phrases that opens URL, folders, files, and programs, \nsay: \"Add command\"\n"
+        "\n\n\nYour Customized Commands:\n"
     )
     for cmd in commands.keys():
         help_text += f"\n- {cmd.capitalize()}"

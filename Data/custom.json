@@ -1,8 +1,8 @@
 {
     "hello": {
         "type": "speak",
-        "response": "Hello there! How can I assist you today?",
-        "exact_match": false
+        "response": "awdawdaadwada",
+        "exact_match": true
     },
     "youtube": {
         "type": "url",
@@ -12,6 +12,16 @@
     "download": {
         "type": "path",
         "response": "downloads",
+        "exact_match": false
+    },
+    "taleem company": {
+        "type": "url",
+        "response": "https://taleem-edu.com/",
+        "exact_match": false
+    },
+    "hossain": {
+        "type": "url",
+        "response": "Youtube",
         "exact_match": false
     }
 }

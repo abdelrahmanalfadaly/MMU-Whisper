@@ -2,19 +2,28 @@
     {
         "subject": "English",
         "type": "Lecture",
-        "day": "Monday",
-        "start_time": "8 AM",
-        "end_time": "10 AM",
-        "location": "FCI ",
+        "day": "Saturday",
+        "start_time": "11:50 pm",
+        "end_time": "11:55 am",
+        "location": "FCI",
         "lecturer": "Asra"
     },
     {
-        "subject": "IT Project",
-        "type": "Lecture",
-        "day": "Thursday",
-        "start_time": "4 PM",
-        "end_time": "6 PM",
-        "location": "FCI ",
-        "lecturer": "Willi"
+        "subject": "Mathematics",
+        "type": "Tutorial",
+        "day": "Wednesday",
+        "start_time": "02:00 PM",
+        "end_time": "03:30 PM",
+        "location": "FCI",
+        "lecturer": "John Doe"
+    },
+    {
+        "subject": "Computer Science",
+        "type": "Lab",
+        "day": "monday",
+        "start_time": "11:00 AM",
+        "end_time": "01:00 PM",
+        "location": "FOM",
+        "lecturer": "Jane Smith"
     }
 ]
